@@ -33,12 +33,12 @@ public class LoginPage extends BasePage {
 	}
 	private void setPassword(String password) {
 		
-		loginField.clear();
-		loginField.sendKeys(password);
+		passwordField.clear();
+		passwordField.sendKeys(password);
 	}
 	private void setLogin(String login) {
 		
-		passwordField.clear();
+		loginField.clear();
 		loginField.sendKeys(login);
 	}
 
