@@ -1,34 +1,42 @@
 package pages;
 
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage extends BasePage {
+import com.thoughtworks.selenium.webdriven.commands.GetText;
 
-	@FindBy (id ="j_password")
-	WebElement loginField;
-	
+public class LoginPage extends BasePage<LoginPage> {
+
 	@FindBy (id ="j_username")
-	WebElement passwordField;
+	private WebElement loginField;
+	
+	@FindBy (name ="j_password")
+	private WebElement passwordField;
 	
 	@FindBy (id ="yui-gen1-button")
-	WebElement submitButton;
+	private WebElement submitButton;	
+
+	@FindBy (xpath =".//a[2]/b")
+	private WebElement logOutLinkElement;	
 	
-	public LoginPage(WebDriver driver){		
-		this.driver = driver;
-		PageFactory.initElements(driver, this);
+	public WebElement getLogOutLinkElement() {
+		return logOutLinkElement;
 	}
 	
-	public void loginAs(String login, String password){
-		
+	public LoginPage(WebDriver driver){		
+		super(driver);
+	}
+	
+	public MainPage loginAs(String login, String password){	
 		setLogin(login);
 		setPassword(password);
 		submit();
+		return new MainPage(driver);
 	}
-	private void submit() {
-		
+	private void submit() {		
 		submitButton.click();
 	}
 	private void setPassword(String password) {
@@ -39,8 +47,18 @@ public class LoginPage extends BasePage {
 	private void setLogin(String login) {
 		
 		loginField.clear();
-		loginField.sendKeys(login);
+		loginField.sendKeys(login);		
 	}
-
+	public String getLogOutLinkText(){
+		return logOutLinkElement.getText();
+	}
+	@Override
+	 protected void load() {
+		driver.get("http://seltr-kbp1-1.synapse.com:8080/");
+	}
+	@Override 
+	protected void isLoaded() throws Error {
+		Assert.assertEquals("Jenkins", driver.getTitle());
+	  }
 }
 

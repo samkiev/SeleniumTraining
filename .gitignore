@@ -7,3 +7,4 @@ target/classes/pages/BuildPage.class
 target/classes/pages/LoginPage.class
 target/classes/pages/MainPage.class
 target/classes/pages/ProjectPage.class
+target/test-classes/SeleniumTests.class

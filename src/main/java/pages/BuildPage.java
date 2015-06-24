@@ -3,29 +3,36 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class BuildPage extends BasePage{
 	
 	String date;
 	
 	@FindBy(className = "build-caption")
-	WebElement buildDateElement;
+	private WebElement buildDateElement;
 	
 	public BuildPage(WebDriver driver){		
-		this.driver = driver;
+		super(driver);
 	}
-	public void goToBuildPage(WebElement element){
-		
-		ProjectPage projectPage = new ProjectPage(driver);		
-		projectPage.getBuildHistoryDateElement().click();
-	}
+	
 	public WebElement getBuildDateElement(){
 		return buildDateElement;
 	}
 	
-	public String getBuildDate(WebElement element) {
+	public String getBuildDate(WebElement element) {		
+		return getDateOfElement(element);
+	}
+
+	@Override
+	protected void load() {
+		// TODO Auto-generated method stub
 		
-		date = BasePage.getDateOfElement(element).substring(18, 137);
-		return date;
+	}
+
+	@Override
+	protected void isLoaded() throws Error {
+		// TODO Auto-generated method stub
+		
 	}
 }
