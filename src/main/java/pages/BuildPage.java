@@ -1,5 +1,8 @@
 package pages;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -20,8 +23,12 @@ public class BuildPage extends BasePage{
 		return buildDateElement;
 	}
 	
-	public String getBuildDate(WebElement element) {		
-		return getDateOfElement(element);
+	public String getBuildPageDate() {	
+		String messageOfBuildPage = getBuildDateElement().getText();
+		String dateOfBuildPage = messageOfBuildPage.substring(messageOfBuildPage.indexOf("(") + 1, messageOfBuildPage.indexOf(")"));
+		LocalDateTime formatDateOFBuildPage = LocalDateTime.parse(dateOfBuildPage, DateTimeFormatter.ofPattern("MMM dd, yyyy hh:mm:ss a"));				
+		return 
+				formatDateOFBuildPage.format(DateTimeFormatter.ofPattern("mm-dd-yyyy hh:mm a"));
 	}
 
 	@Override

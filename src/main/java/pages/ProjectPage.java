@@ -1,5 +1,8 @@
 package pages;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -28,12 +31,17 @@ public class ProjectPage extends BasePage {
 		return  buildHistoryDateElement;
 	}
 	
-	public String getBuildHistoryDate(WebElement element){
-		return getDateOfElement(element);			
+	public String getBuildHistoryDate(){
+		
+		String dateOfProjectPage = getBuildHistoryDateElement().getText();
+		LocalDateTime formatDateOFProjectPage = LocalDateTime.parse(dateOfProjectPage, DateTimeFormatter.ofPattern("MMM dd, yyyy hh:mm a"));				
+		return 
+				formatDateOFProjectPage.format(DateTimeFormatter.ofPattern("mm-dd-yyyy hh:mm a"));			
 	}
 	
-	public void goToBuildPage(){		
+	public BuildPage goToBuildPage(){		
 		getBuildHistoryDateElement().click();
+		return new BuildPage(driver);
 	}
 	public String getProjectName(){
 		return projectNameElement.getText();

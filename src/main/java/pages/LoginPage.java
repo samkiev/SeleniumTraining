@@ -17,14 +17,7 @@ public class LoginPage extends BasePage<LoginPage> {
 	private WebElement passwordField;
 	
 	@FindBy (id ="yui-gen1-button")
-	private WebElement submitButton;	
-
-	@FindBy (xpath =".//a[2]/b")
-	private WebElement logOutLinkElement;	
-	
-	public WebElement getLogOutLinkElement() {
-		return logOutLinkElement;
-	}
+	private WebElement submitButton;		
 	
 	public LoginPage(WebDriver driver){		
 		super(driver);
@@ -49,9 +42,7 @@ public class LoginPage extends BasePage<LoginPage> {
 		loginField.clear();
 		loginField.sendKeys(login);		
 	}
-	public String getLogOutLinkText(){
-		return logOutLinkElement.getText();
-	}
+
 	@Override
 	 protected void load() {
 		driver.get("http://seltr-kbp1-1.synapse.com:8080/");

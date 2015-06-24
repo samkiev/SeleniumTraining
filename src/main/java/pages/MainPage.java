@@ -13,6 +13,9 @@ public class MainPage extends BasePage<MainPage> {
 	@FindBy(xpath = "//*[@id='projectstatus']//tr[2]/td[3]/a")
 	private WebElement firstProjectLink;
 	
+	@FindBy (xpath =".//a[2]/b")
+	private WebElement logOutLinkElement;	
+	
 	public MainPage(WebDriver driver){
 		super(driver);
 	}
@@ -24,7 +27,12 @@ public class MainPage extends BasePage<MainPage> {
 	public String getProjectName(){
 		return firstProjectLink.getText();
 	}
-	
+	public String getLogOutLinkText(){
+		return logOutLinkElement.getText();
+	}
+	public WebElement getLogOutLinkElement() {
+		return logOutLinkElement;
+	}
 	@Override
 	protected void isLoaded() throws Error {
 		Assert.assertTrue(isLoggedIn());		 

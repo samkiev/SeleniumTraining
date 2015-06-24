@@ -22,11 +22,7 @@ public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<
 		PageFactory.initElements(driver, this);
 //		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
-	
-	protected String getDateOfElement(WebElement element) {
-		return element.getText();	
-	}
-
+		
 	protected boolean isLoggedIn() {
 		try {
 			return logOutLink.isDisplayed();
