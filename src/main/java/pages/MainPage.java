@@ -1,6 +1,5 @@
 package pages;
 
-
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,6 +13,9 @@ public class MainPage extends BasePage<MainPage> {
 	@FindBy (xpath =".//a[2]/b")
 	private WebElement logOutLinkElement;	
 	
+	@FindBy (id = "description-link")
+	private WebElement descriptionLinkElement;
+	
 	public MainPage(WebDriver driver){
 		super(driver);
 	}
@@ -25,16 +27,14 @@ public class MainPage extends BasePage<MainPage> {
 	public String getProjectName(){
 		return firstProjectLink.getText();
 	}
-	public String getLogOutLinkText(){
-		return logOutLinkElement.getText();
-	}
+	
 	public WebElement getLogOutLinkElement() {
 		return logOutLinkElement;
 	}
 	@Override
 	protected void isLoaded() throws Error {
 		Assert.assertTrue(isLoggedIn());		 
-		Assert.assertEquals("Dashboard [Jenkins]", driver.getTitle());
+		Assert.assertTrue(descriptionLinkElement.isDisplayed());
 	}
 
 	@Override

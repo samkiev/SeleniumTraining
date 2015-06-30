@@ -11,8 +11,6 @@ public class WebDriverController {
 	public static final String FIREFOX = "firefox";
 	public static final String IE = "ie";
 	
-	
-	
 	private static WebDriver wd = null;
 	
 	public static WebDriver getDriver() {

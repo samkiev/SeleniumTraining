@@ -1,13 +1,13 @@
 package pages;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import org.junit.Assert;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import utils.LocaleDateExtractor;
 
 public class BuildPage extends BasePage<BuildPage> {
 		
@@ -16,17 +16,18 @@ public class BuildPage extends BasePage<BuildPage> {
 	
 	@FindBy(xpath = "a//a")
 	private WebElement buildPageUniqueElement;
-	
+		
 	public BuildPage(WebDriver driver){		
 		super(driver);
 	}
 	
-	public String getBuildPageDate() {	
-		
-		String messageOfBuildPage = buildDateElement.getText();
-		String dateOfBuildPage = messageOfBuildPage.substring(messageOfBuildPage.indexOf("(") + 1, messageOfBuildPage.indexOf(")"));
-		LocalDateTime formatDateOFBuildPage = LocalDateTime.parse(dateOfBuildPage, DateTimeFormatter.ofPattern("MMM dd, yyyy hh:mm:ss a"));				
-		return 	formatDateOFBuildPage.format(DateTimeFormatter.ofPattern("mm-dd-yyyy hh:mm a"));
+	public LocalDateTime getBuildPageDate() {						
+		return 	LocaleDateExtractor.getBuildPageCorrectDate(getBuildPageDateText());
+	}
+
+	private String getBuildPageDateText() {
+		String messageOfBuildPage = buildDateElement.getText();	
+		return  messageOfBuildPage.substring(messageOfBuildPage.indexOf("(") + 1, messageOfBuildPage.indexOf(")"));
 	}
 	
 	public boolean isOnBuildPage(){

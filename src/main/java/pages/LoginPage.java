@@ -30,14 +30,10 @@ public class LoginPage extends BasePage<LoginPage> {
 	private void submit() {		
 		submitButton.click();
 	}
-	private void setPassword(String password) {
-		
-		passwordField.clear();
+	private void setPassword(String password) {			
 		passwordField.sendKeys(password);
 	}
-	private void setLogin(String login) {
-		
-		loginField.clear();
+	private void setLogin(String login) {		
 		loginField.sendKeys(login);		
 	}
 

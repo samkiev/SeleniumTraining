@@ -9,10 +9,10 @@ public class User {
 		String login = System.getProperty("loigin");
 		String password = System.getProperty("password");	
 	}
-	public String getLogin(String login, String password){
+	public String getLogin(String login){
 			return System.getProperty("loigin");		
 		}
-	public String getPassword(String login, String password){
+	public String getPassword(String password){
 		return System.getProperty("password");		
 	}
 	
