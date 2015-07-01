@@ -9,23 +9,36 @@ import org.openqa.selenium.support.ui.LoadableComponent;
 
 public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<T> {
 
-	protected String login = "admin";
-	protected String password = "admin";
-	protected WebDriver driver;
+	protected final WebDriver driver;
 	
 	@FindBy(css = ".login a[href*='logout']")
-	private WebElement logOutLink;
-
+	protected WebElement logOutLink;
+	
 	public BasePage(WebDriver wd) {
-		this.driver = wd;
-		PageFactory.initElements(driver, this);
+		this(wd, false);
 	}
 		
-	protected boolean isLoggedIn() {
+	protected BasePage(WebDriver wd, boolean checkIfLoaded) {
+		this.driver = wd;
+		PageFactory.initElements(driver, this);
+		if (checkIfLoaded) {
+			isLoaded();
+		}
+	}
+	
+	public boolean isLoggedIn() {
 		try {
 			return logOutLink.isDisplayed();
 		}
 		catch (NoSuchElementException e) {}
 		return false;
 	}
+	
+	@Override
+	protected void load() {
+		System.out.printf("Loading page: '%s'\n", getPageUrl());
+		driver.get(getPageUrl());
+	}
+	
+	protected abstract String getPageUrl();
 }

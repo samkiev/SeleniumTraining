@@ -1,6 +1,8 @@
 package pages;
 
+import org.hamcrest.Matchers;
 import org.junit.Assert;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -38,12 +40,19 @@ public class LoginPage extends BasePage<LoginPage> {
 	}
 
 	@Override
-	 protected void load() {
-		driver.get("http://seltr-kbp1-1.synapse.com:8080/");
+	protected String getPageUrl() {
+		return "http://seltr-kbp1-1.synapse.com:8080/login";
 	}
+	
 	@Override 
 	protected void isLoaded() throws Error {
-		Assert.assertEquals("Jenkins", driver.getTitle());
-	  }
+		try {
+			Assert.assertTrue(passwordField.isDisplayed());
+			Assert.assertThat(driver.getCurrentUrl(), Matchers.startsWith(getPageUrl()));
+		}
+		catch (NoSuchElementException e) {
+			Assert.fail("Login page is not loaded");
+		}
+	}
 }
 

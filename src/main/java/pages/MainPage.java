@@ -1,11 +1,12 @@
 package pages;
 
 import org.junit.Assert;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MainPage extends BasePage<MainPage> {
+public class MainPage extends AuthenticationBasePage<MainPage> {
 	
 	@FindBy(xpath = "//*[@id='projectstatus']//tr[2]/td[3]/a")
 	private WebElement firstProjectLink;
@@ -16,6 +17,9 @@ public class MainPage extends BasePage<MainPage> {
 	@FindBy (id = "description-link")
 	private WebElement descriptionLinkElement;
 	
+	@FindBy (css = "a[href*='People']")
+	WebElement usersListLink;
+	
 	public MainPage(WebDriver driver){
 		super(driver);
 	}
@@ -24,24 +28,30 @@ public class MainPage extends BasePage<MainPage> {
 		firstProjectLink.click();
 		return new ProjectPage(driver);
 	}
+	public UsersListPage gotoUsersListPage(){
+		usersListLink.click();
+		return new UsersListPage(driver);		
+	}
 	public String getProjectName(){
 		return firstProjectLink.getText();
 	}
 	
-	public WebElement getLogOutLinkElement() {
-		return logOutLinkElement;
-	}
+	public boolean isLogOutLinkDisplayed() {
+		return logOutLinkElement.isDisplayed();
+	}	
+	
 	@Override
 	protected void isLoaded() throws Error {
-		Assert.assertTrue(isLoggedIn());		 
-		Assert.assertTrue(descriptionLinkElement.isDisplayed());
+		try {
+			Assert.assertTrue(descriptionLinkElement.isDisplayed());
+		}
+		catch (NoSuchElementException e) {
+			Assert.fail("Main page is not loaded");
+		}
 	}
 
 	@Override
-	protected void load() {
-		if (!isLoggedIn()) {
-			new LoginPage(driver).get().loginAs(login, password);
-		}
-		driver.get("http://seltr-kbp1-1.synapse.com:8080/");
+	protected String getPageUrl() {
+		return "http://seltr-kbp1-1.synapse.com:8080/";
 	}
 }

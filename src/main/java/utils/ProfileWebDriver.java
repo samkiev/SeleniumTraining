@@ -8,7 +8,7 @@ public class ProfileWebDriver {
 	
 	public static FirefoxProfile getFirefoxProfile() {				
 				FirefoxProfile fp = new FirefoxProfile();	  
-				fp.setPreference("intl.accept_languages", Language.getCurrentLanguage().toString()); 	
+				fp.setPreference("intl.accept_languages", Language.getCurrentLanguage().toString());
 			 return fp;
 	}
 

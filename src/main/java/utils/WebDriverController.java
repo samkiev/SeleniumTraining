@@ -1,5 +1,7 @@
 package utils;
 
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -33,6 +35,8 @@ public class WebDriverController {
 			}
 		}
 		wd.manage().window().maximize();
-		return wd;
+		wd.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+        wd.manage().timeouts().setScriptTimeout(30, TimeUnit.SECONDS); //for async JavaScript
+		return new AlertHandlingWebDriver(wd);
 	}
 }

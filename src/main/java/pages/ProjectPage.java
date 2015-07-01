@@ -1,6 +1,7 @@
 package pages;
 
 import java.time.LocalDateTime;
+
 import org.junit.Assert;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -9,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 
 import utils.LocaleDateExtractor;
 
-public class ProjectPage extends BasePage<ProjectPage> {
+public class ProjectPage extends AuthenticationBasePage<ProjectPage> {
 		
 	@FindBy(css = "div.build-details > a")
 	private WebElement buildHistoryDateElement;
@@ -45,17 +46,14 @@ public class ProjectPage extends BasePage<ProjectPage> {
 	}
 
 	@Override
-	protected void load() {
-		if (!isLoggedIn()) {
-			 new LoginPage(driver).get().loginAs(login, password);			 
-		}
-		driver.get("http://seltr-kbp1-1.synapse.com:8080/job/" + new MainPage(driver).getProjectName());
-	}
-
-	@Override
 	protected void isLoaded() throws Error {
 		Assert.assertTrue(isLoggedIn());		 
 		Assert.assertTrue(isOnProjectPage());	
+	}
+
+	@Override
+	protected String getPageUrl() {
+		return "http://seltr-kbp1-1.synapse.com:8080/job/" + new MainPage(driver).getProjectName();
 	}
 }
 
