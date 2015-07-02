@@ -34,8 +34,7 @@ public class UserPage extends AuthenticationBasePage<UserPage> {
 		}
 		catch (NoSuchElementException e) {
 			Assert.fail(String.format("User page is not loaded. Url: %s", driver.getCurrentUrl()));
-		}
-		
+		}		
 	}
 
 	@Override

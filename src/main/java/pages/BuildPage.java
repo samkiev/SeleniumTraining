@@ -1,13 +1,11 @@
 package pages;
 
 import java.time.LocalDateTime;
-
 import org.junit.Assert;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import utils.LocaleDateExtractor;
 
 public class BuildPage extends AuthenticationBasePage<BuildPage> {

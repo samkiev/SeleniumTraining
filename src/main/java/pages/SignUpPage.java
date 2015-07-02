@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import utils.User;
+
 public class SignUpPage extends BasePage<SignUpPage> {
 	
 	@FindBy(id = "username")
@@ -29,12 +31,18 @@ public class SignUpPage extends BasePage<SignUpPage> {
 		super(driver);
 	}
 	
-	public CreateAccountResultPage signUpAs(String login, String password, String name, String email){
-		usernameField.sendKeys(login);
-		passwordField.sendKeys(password);
-		confirmPasswordField.sendKeys(password);
-		fullNameField.sendKeys(name);
-		emailField.sendKeys(email);
+	public CreateAccountResultPage signUpAs(User user){
+		
+		usernameField.clear();
+		usernameField.sendKeys(user.getLogin());
+		passwordField.clear();
+		passwordField.sendKeys(user.getPassword());
+		confirmPasswordField.clear();
+		confirmPasswordField.sendKeys(user.getPassword());
+		fullNameField.clear();
+		fullNameField.sendKeys(user.getName());
+		emailField.clear();
+		emailField.sendKeys(user.getEmail());
 		signUpButton.click();	
 		
 		return new CreateAccountResultPage(driver, true);

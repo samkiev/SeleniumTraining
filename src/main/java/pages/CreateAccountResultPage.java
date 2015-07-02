@@ -2,10 +2,16 @@ package pages;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class CreateAccountResultPage extends BasePage<CreateAccountResultPage> {
 
+	@FindBy(className = "error")
+	private WebElement error;
+	
 	protected CreateAccountResultPage(WebDriver wd, boolean checkIfLoaded) {
 		super(wd, checkIfLoaded);
 	}
@@ -18,5 +24,13 @@ public class CreateAccountResultPage extends BasePage<CreateAccountResultPage> {
 	@Override
 	protected void isLoaded() throws Error {
 		Assert.assertThat(driver.getCurrentUrl(), Matchers.equalToIgnoringCase(getPageUrl()));
+	}
+	
+	public String getError() {
+		try {
+			return error.getText();
+		}
+		catch (NoSuchElementException e) {}
+		return null;
 	}
 }

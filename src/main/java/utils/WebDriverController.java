@@ -1,7 +1,5 @@
 package utils;
 
-import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -15,8 +13,8 @@ public class WebDriverController {
 	
 	private static WebDriver wd = null;
 	
-	public static WebDriver getDriver() {
-		if (wd == null) {
+	public static WebDriver getDriver(boolean getNew) {
+		if (wd == null || getNew) {
 			String browserName = System.getProperty("browser", "firefox").toLowerCase();
 			switch(browserName) {
 			case CHROME:
@@ -35,8 +33,10 @@ public class WebDriverController {
 			}
 		}
 		wd.manage().window().maximize();
-		wd.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-        wd.manage().timeouts().setScriptTimeout(30, TimeUnit.SECONDS); //for async JavaScript
-		return new AlertHandlingWebDriver(wd);
+		return wd;
+	}
+	
+	public static WebDriver getDriver() {
+		return getDriver(false);
 	}
 }

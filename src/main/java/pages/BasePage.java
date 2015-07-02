@@ -11,6 +11,9 @@ public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<
 
 	protected final WebDriver driver;
 	
+	@FindBy(css = "a.inverse")
+	private WebElement userLink;
+
 	@FindBy(css = ".login a[href*='logout']")
 	protected WebElement logOutLink;
 	
@@ -25,6 +28,14 @@ public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<
 			isLoaded();
 		}
 	}
+	public String getUserLinkElementText(){
+		try {
+			return userLink.getText();
+		}
+		catch (NoSuchElementException e){}
+		return null;
+		
+	}
 	
 	public boolean isLoggedIn() {
 		try {
@@ -36,7 +47,6 @@ public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<
 	
 	@Override
 	protected void load() {
-		System.out.printf("Loading page: '%s'\n", getPageUrl());
 		driver.get(getPageUrl());
 	}
 	
