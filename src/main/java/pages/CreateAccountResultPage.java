@@ -31,6 +31,7 @@ public class CreateAccountResultPage extends BasePage<CreateAccountResultPage> {
 			return error.getText();
 		}
 		catch (NoSuchElementException e) {}
+		System.out.println("Sign up is Fail");
 		return null;
 	}
 }

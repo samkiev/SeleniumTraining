@@ -9,9 +9,6 @@ import utils.User;
 public abstract class AuthenticationBasePage<T extends AuthenticationBasePage<T>> extends BasePage<T> {
 
 	public static final User ADMIN = new User("admin","admin");
-	public static final String LOGIN = "admin";
-	public static final String PASSWORD = "admin";
-
 	
 	public AuthenticationBasePage(WebDriver wd) {
 		super(wd);
@@ -24,12 +21,14 @@ public abstract class AuthenticationBasePage<T extends AuthenticationBasePage<T>
 	@Override
 	public void load() {
 		if (!isLoggedIn()) {
+			System.out.println("Login as " + ADMIN.getLogin().toUpperCase());
 			new LoginPage(driver).get().loginAs(ADMIN);
 		}
 		driver.get(getPageUrl());
 	}	
 
 	public void logOut(){
+		System.out.println("Log Out");
 		logOutLink.click();
 	}
 }

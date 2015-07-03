@@ -22,7 +22,8 @@ public class DeletePage extends AuthenticationBasePage<DeletePage>{
 	}
 	
 	public void deleteUser(){
-		confirmDeleteButton.click();		
+		confirmDeleteButton.click();
+		System.out.println(userName + " was deleted");
 	}
 
 	@Override

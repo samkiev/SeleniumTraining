@@ -17,10 +17,13 @@ public class PeoplePage extends AuthenticationBasePage<PeoplePage> {
 	
 	public boolean isUserInTheList(User user) {
 		try {
-			return driver.findElement(By.linkText(user.getLogin())).isDisplayed();
-		} catch (NoSuchElementException e) {	
-			
-		}			
+			if (driver.findElement(By.linkText(user.getLogin())).isDisplayed()){
+			System.out.println(user.getLogin() + " is found in the People page");
+			return true;
+		}
+				
+		} catch (NoSuchElementException e) {}
+			Assert.fail("User is abcent in the List");
 			return false;	
 	}	
 	

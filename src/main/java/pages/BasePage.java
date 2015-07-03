@@ -38,15 +38,19 @@ public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<
 	}
 	
 	public boolean isLoggedIn() {
-		try {
-			return logOutLink.isDisplayed();
+		try {if (logOutLink.isDisplayed()){
+			System.out.println("Log in as "+ getUserLinkElementText());
+			return true;
+		}
 		}
 		catch (NoSuchElementException e) {}
+		
 		return false;
 	}
 	
 	@Override
 	protected void load() {
+		System.out.println("Follow a link - "+ getPageUrl());
 		driver.get(getPageUrl());
 	}
 	

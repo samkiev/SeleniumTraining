@@ -32,7 +32,7 @@ public class SignUpPage extends BasePage<SignUpPage> {
 	}
 	
 	public CreateAccountResultPage signUpAs(User user){
-		
+		System.out.println("Sing Up as " + user.getLogin());
 		usernameField.clear();
 		usernameField.sendKeys(user.getLogin());
 		passwordField.clear();

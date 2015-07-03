@@ -1,9 +1,11 @@
 package utils;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.SessionNotFoundException;
 
 public class WebDriverController {
 
@@ -13,8 +15,17 @@ public class WebDriverController {
 	
 	private static WebDriver wd = null;
 	
-	public static WebDriver getDriver(boolean getNew) {
-		if (wd == null || getNew) {
+	private static boolean isBrowserDown() {
+		try {
+			wd.getCurrentUrl();
+			return false;
+		}
+		catch (SessionNotFoundException e) {}
+		return true;
+	}
+	
+	public static WebDriver getDriver() {
+		if (wd == null || isBrowserDown()) {
 			String browserName = System.getProperty("browser", "firefox").toLowerCase();
 			switch(browserName) {
 			case CHROME:
@@ -34,9 +45,5 @@ public class WebDriverController {
 		}
 		wd.manage().window().maximize();
 		return wd;
-	}
-	
-	public static WebDriver getDriver() {
-		return getDriver(false);
 	}
 }

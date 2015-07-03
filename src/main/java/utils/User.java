@@ -2,7 +2,7 @@ package utils;
 
 public class User {
 	
-	private int addToLogin = (int) (Math.random()*1000);
+	private int addToLogin = (int) (Math.random()*10000);
 	private String login = "testuserlogin"+ addToLogin ;
 	private String password = "password"+ addToLogin;
 	private String name = "testusername" + addToLogin;
@@ -22,7 +22,6 @@ public class User {
 	}
 	
 	public User(String login, String password, String name, String email) {
-		
 		this.login = login;
 		this.password = password;
 		this.name = name;

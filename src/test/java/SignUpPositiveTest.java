@@ -1,11 +1,14 @@
 
 import static org.junit.Assert.*;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
 import pages.CreateAccountResultPage;
 import pages.DeletePage;
 import pages.SignUpPage;
@@ -27,7 +30,7 @@ public class SignUpPositiveTest {
 	@Test
 	public void checkSignUpFunctionality() {
 		CreateAccountResultPage resultPage = new SignUpPage(driver).get()			
-				.signUpAs(user );
+				.signUpAs(user);
 		assertTrue(resultPage.isLoggedIn());
 		assertNull(resultPage.getError());	
 	}
@@ -35,7 +38,7 @@ public class SignUpPositiveTest {
 	@After
 	public void userCleaner(){
 		driver.quit();
-		driver = WebDriverController.getDriver(true);
+		driver = new FirefoxDriver();
 		new DeletePage(driver, user).get().deleteUser();
 	}
 }

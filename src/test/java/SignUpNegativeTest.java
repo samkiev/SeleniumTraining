@@ -33,7 +33,7 @@ public class SignUpNegativeTest {
 	@AfterClass
 	public static void shutDown() {
 		driver.quit();
-		driver = WebDriverController.getDriver(true);		
+		driver = new FirefoxDriver();
 		if (new PeoplePage(driver).get().isUserInTheList(user)){
 			new DeletePage(driver, user).get().deleteUser();
 		}
