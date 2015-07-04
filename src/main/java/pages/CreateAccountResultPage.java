@@ -27,11 +27,10 @@ public class CreateAccountResultPage extends BasePage<CreateAccountResultPage> {
 	}
 	
 	public String getError() {
-		try {
+		try {System.out.println("Sign up is Fail");
 			return error.getText();
 		}
-		catch (NoSuchElementException e) {}
-		System.out.println("Sign up is Fail");
+		catch (NoSuchElementException e) {}		
 		return null;
 	}
 }

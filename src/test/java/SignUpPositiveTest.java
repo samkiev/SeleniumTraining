@@ -1,17 +1,17 @@
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import pages.CreateAccountResultPage;
-import pages.DeletePage;
 import pages.SignUpPage;
+import rules.SingUpRule;
 import utils.User;
 import utils.WebDriverController;
 
@@ -20,10 +20,17 @@ public class SignUpPositiveTest {
 
 	private static WebDriver driver = WebDriverController.getDriver();
 	private User user = new User();
+	
 
-
+	//@ClassRule
+	
+	
+	@Rule
+	public SingUpRule rule = new SingUpRule(driver, user);
+	
 	@AfterClass
 	public static void shutDown() {
+		System.out.println("close driver");
 		driver.quit();
 	}	
 
@@ -33,12 +40,5 @@ public class SignUpPositiveTest {
 				.signUpAs(user);
 		assertTrue(resultPage.isLoggedIn());
 		assertNull(resultPage.getError());	
-	}
-	
-	@After
-	public void userCleaner(){
-		driver.quit();
-		driver = new FirefoxDriver();
-		new DeletePage(driver, user).get().deleteUser();
 	}
 }
