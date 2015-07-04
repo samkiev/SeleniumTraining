@@ -1,16 +1,14 @@
 
 import static org.junit.Assert.*;
-
-import org.junit.AfterClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.openqa.selenium.WebDriver;
-
 import pages.CreateAccountResultPage;
 import pages.SignUpPage;
+import rules.DefaultRule;
 import rules.SingUpRule;
 import utils.User;
 import utils.WebDriverController;
@@ -22,18 +20,12 @@ public class SignUpPositiveTest {
 	private User user = new User();
 	
 
-	//@ClassRule
-	
+	@ClassRule
+	public static DefaultRule fr = new DefaultRule(driver);
 	
 	@Rule
-	public SingUpRule rule = new SingUpRule(driver, user);
-	
-	@AfterClass
-	public static void shutDown() {
-		System.out.println("close driver");
-		driver.quit();
-	}	
-
+	public SingUpRule signUpPageRule = new SingUpRule(driver, user);
+		
 	@Test
 	public void checkSignUpFunctionality() {
 		CreateAccountResultPage resultPage = new SignUpPage(driver).get()			
