@@ -1,14 +1,21 @@
 import static org.junit.Assert.*;
 import static utils.DateTimeMatcher.*;
+
 import java.time.LocalDateTime;
-import org.junit.AfterClass;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.openqa.selenium.WebDriver;
+
 import pages.LoginPage;
 import pages.MainPage;
 import pages.ProjectPage;
+import rules.DefaultRule;
 import utils.User;
 import utils.WebDriverController;
 
@@ -16,22 +23,22 @@ import utils.WebDriverController;
 public class SeleniumTest {
 
 	private static WebDriver driver = WebDriverController.getDriver();
-	private static User admin = new User("admin", "admin");
+	Logger log = LogManager.getLogger(SeleniumTest.class.getName());
+	
 
-	@AfterClass
-	public static void shutDown() {
-		driver.quit();
-	}
-
+	@ClassRule 
+	public static DefaultRule rule = new DefaultRule(driver);
+	
 	@Test
 	public void loginTest() {
+		log.info("Login Test started");
 		MainPage page = new LoginPage(driver).get()
-				.loginAs(admin);
+				.loginAs(User.setLoginAndPassword("admin", "admin"));
 		assertTrue(page.isLoggedIn());
 	}
 
 	@Test
-	public void enterProjectPageTest(){		
+	public void enterProjectPageTest(){
 		MainPage mainPage = new MainPage(driver).get();		
 		String projectNameInList = mainPage.getProjectName();		
 		ProjectPage projectPage = mainPage.choseFirstProjectLink();

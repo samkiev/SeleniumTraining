@@ -9,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 
 import utils.User;
 
+
 public class DeletePage extends AuthenticationBasePage<DeletePage>{
 	
 	private String userName;

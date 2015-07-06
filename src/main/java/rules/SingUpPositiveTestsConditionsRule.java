@@ -9,11 +9,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import pages.DeletePage;
 import utils.User;
 
-public class SingUpRule implements TestRule {
+
+public class SingUpPositiveTestsConditionsRule implements TestRule {
 	private WebDriver driver;
 	private User user;
-	
-	public SingUpRule(WebDriver driver, User user) {
+		
+	public SingUpPositiveTestsConditionsRule(WebDriver driver, User user) {
 		this.driver = driver;
 		this.user = user;
 	}
@@ -23,9 +24,12 @@ public class SingUpRule implements TestRule {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-                System.out.println("before");
-                base.evaluate();
-                System.out.println("after");
+                
+                try {
+                	base.evaluate();                	
+				} catch (Exception e) {}
+               
+                System.out.println("After Test Precondition");
                 userCleaner();
             }
         };

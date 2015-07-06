@@ -50,7 +50,6 @@ public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<
 	
 	@Override
 	protected void load() {
-		System.out.println("Follow a link - "+ getPageUrl());
 		driver.get(getPageUrl());
 	}
 	

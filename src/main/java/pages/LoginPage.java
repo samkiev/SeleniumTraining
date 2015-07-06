@@ -9,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import utils.User;
 
 
+
 public class LoginPage extends BasePage<LoginPage> {
 
 	@FindBy (id ="j_username")

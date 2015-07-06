@@ -4,8 +4,8 @@ import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import utils.User;
+
 
 public class SignUpPage extends BasePage<SignUpPage> {
 	
@@ -32,6 +32,7 @@ public class SignUpPage extends BasePage<SignUpPage> {
 	}
 	
 	public CreateAccountResultPage signUpAs(User user){
+		
 		System.out.println("Sing Up as " + user.getLogin());
 		usernameField.clear();
 		usernameField.sendKeys(user.getLogin());

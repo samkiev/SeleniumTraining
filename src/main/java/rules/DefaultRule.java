@@ -5,6 +5,7 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.openqa.selenium.WebDriver;
 
+
 public class DefaultRule implements TestRule {
 	private WebDriver driver;
 	
@@ -18,7 +19,11 @@ public class DefaultRule implements TestRule {
             @Override
             public void evaluate() throws Throwable {
                 System.out.println("Start TestClass");
-                base.evaluate();
+            
+                try {
+                	 base.evaluate();
+				} catch (Exception e) {	}
+               
                 System.out.println("Tear down");
                 teardown();
             }
