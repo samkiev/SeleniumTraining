@@ -6,9 +6,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import utils.User;
-
-
 
 public class LoginPage extends BasePage<LoginPage> {
 
@@ -25,21 +22,12 @@ public class LoginPage extends BasePage<LoginPage> {
 		super(driver);
 	}
 	
-	public MainPage loginAs(User user){	
-		setLogin(user.getLogin());
-		setPassword(user.getPassword());
-		submit();
-		return new MainPage(driver);
-	}
-	
-	private void submit() {		
-		submitButton.click();
-	}
-	private void setPassword(String password) {			
+	public MainPage loginAs(String login, String password){
+		log.info("Logging in using (Login: {}, Password: {})", login, password);
+		loginField.sendKeys(login);	
 		passwordField.sendKeys(password);
-	}
-	private void setLogin(String login) {		
-		loginField.sendKeys(login);		
+		submitButton.click();
+		return new MainPage(driver);
 	}
 
 	@Override
@@ -55,7 +43,7 @@ public class LoginPage extends BasePage<LoginPage> {
 		}
 		catch (NoSuchElementException e) {
 			Assert.fail("Login page is not loaded");
-		}
+		} 
 	}
 }
 

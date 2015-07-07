@@ -7,9 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import utils.User;
-
-
 public class DeletePage extends AuthenticationBasePage<DeletePage>{
 	
 	private String userName;
@@ -17,14 +14,15 @@ public class DeletePage extends AuthenticationBasePage<DeletePage>{
 	@FindBy(id = "yui-gen1-button")
 	private WebElement confirmDeleteButton;
 	
-	public DeletePage(WebDriver driver, User user){		
+	public DeletePage(WebDriver driver, String userName) {		
 		super(driver);
-		this.userName = user.getLogin();
+		this.userName = userName;
 	}
 	
-	public void deleteUser(){
+	public MainPage deleteUser() {
+		log.info("Goind to delete user: {}", userName);
 		confirmDeleteButton.click();
-		System.out.println(userName + " was deleted");
+		return new MainPage(driver, true);
 	}
 
 	@Override

@@ -21,7 +21,7 @@ public class BuildPage extends AuthenticationBasePage<BuildPage> {
 	}
 	
 	public LocalDateTime getBuildPageDate() {						
-		return 	LocaleDateExtractor.getBuildPageCorrectDate(getBuildPageDateText());
+		return LocaleDateExtractor.getBuildPageCorrectDate(getBuildPageDateText());
 	}
 
 	private String getBuildPageDateText() {

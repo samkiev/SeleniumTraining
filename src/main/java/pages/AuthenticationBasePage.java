@@ -5,9 +5,6 @@ import utils.User;
 
 
 public abstract class AuthenticationBasePage<T extends AuthenticationBasePage<T>> extends BasePage<T> {
-
-	//public static final UserOld ADMIN = new UserOld("admin","admin");
-	
 	
 	public AuthenticationBasePage(WebDriver wd) {
 		super(wd);
@@ -19,14 +16,11 @@ public abstract class AuthenticationBasePage<T extends AuthenticationBasePage<T>
 
 	@Override
 	public void load() {
-		if (!isLoggedIn()) {				
-			new LoginPage(driver).get().loginAs(User.setLoginAndPassword("admin", "admin"));
+		if (!isLoggedIn()) {
+			User user = User.setLoginAndPassword("admin", "admin");
+			new LoginPage(driver).get().loginAs(user.getLogin(), user.getPassword());
 		}
+		log.debug("Loading url: {}", getPageUrl());
 		driver.get(getPageUrl());
-	}	
-
-	public void logOut(){
-		System.out.println("Log Out");
-		logOutLink.click();
 	}
 }

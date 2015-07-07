@@ -6,8 +6,6 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import utils.User;
-
 public class PeoplePage extends AuthenticationBasePage<PeoplePage> {
 
 	private String peoplePageUrl = "http://seltr-kbp1-1.synapse.com:8080/asynchPeople/";
@@ -16,16 +14,12 @@ public class PeoplePage extends AuthenticationBasePage<PeoplePage> {
 		super(driver);
 	}
 	
-	public boolean isUserInTheList(User user) {
+	public boolean isUserInTheList(String login) {
 		try {
-			if (driver.findElement(By.linkText(user.getLogin())).isDisplayed()){
-			System.out.println(user.getLogin() + " is found in the People page");
-			return true;
-		}
-				
-		} catch (NoSuchElementException e) {}
-			Assert.fail("User is abcent in the List");
-			return false;	
+			return driver.findElement(By.linkText(login)).isDisplayed();
+		} 
+		catch (NoSuchElementException e) {}
+		return false;
 	}	
 	
 	private boolean isOnPeoplePage() {		

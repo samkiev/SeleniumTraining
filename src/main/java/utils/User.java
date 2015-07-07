@@ -1,16 +1,24 @@
 package utils;
 
-import com.google.common.collect.ImmutableBiMap.Builder;
+import java.util.function.Consumer;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import pages.DeletePage;
+import pages.SignUpPage;
 
 public class User {
 
+	private boolean isExisting;
 	private int addToLogin = (int) (Math.random()*10000);
 	private String login;
 	private String password;
 	private String name;
 	private String email;
 	
-	private User(){		
+	private User() {
+		isExisting = false;
 		this.login = "testuserlogin"+ addToLogin ;
 		this.password = "password"+ addToLogin;
 		this.name = "testusername" + addToLogin;
@@ -70,7 +78,6 @@ public class User {
 		return user;
 	}
 
-
 	public String getName() {
 		return name;
 	}	
@@ -80,10 +87,55 @@ public class User {
 	}
 				
 	public String getLogin(){
-			return login;		
+		return login;		
 	}
+	
 	public String getPassword(){
 		return password;		
-	}	
+	}
+	
+	public boolean isExisting() {
+		return isExisting;
+	}
+	
+	private boolean executeInDriver(Consumer<WebDriver> consumer) {
+		WebDriver wd = null;
+		try {
+			 wd = new FirefoxDriver();
+			 consumer.accept(wd);
+		}
+		catch (Exception e) {
+			return false;
+		}
+		finally {
+			if (wd != null) {
+				wd.quit();
+			}
+		}
+		return true;
+	}
+	
+	public User register() {
+		if (!isExisting) {
+			isExisting = executeInDriver(wd -> new SignUpPage(wd).get().signUpAs(User.this));
+		}
+		return this;
+	}
+	
+	public User delete(boolean force) {
+		if (isExisting || force) {
+			isExisting = !executeInDriver(wd -> new DeletePage(wd, User.this.getName()).get().deleteUser());
+		}
+		return this;
+	}
+	
+	public User delete() {
+		return delete(false);
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("{User: {login: '%s', password: '%s', name: '%s', email: '%s', existing: '%s'}}", login, password, name, email, isExisting);
+	}
 }
 

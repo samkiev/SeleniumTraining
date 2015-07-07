@@ -1,39 +1,40 @@
 
 import static org.junit.Assert.*;
 
-import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.openqa.selenium.WebDriver;
+import org.junit.runners.model.Statement;
 
 import pages.CreateAccountResultPage;
 import pages.SignUpPage;
-import rules.DefaultRule;
-import rules.SingUpPositiveTestsConditionsRule;
 import utils.User;
 
-import utils.WebDriverController;
-
 @RunWith(JUnit4.class)
-public class SignUpPositiveTest {
+public class SignUpPositiveTest extends BaseTest {
 
-	private static WebDriver driver = WebDriverController.getDriver();
-	private User user = User.generateMockUser();
+private final User user = User.generateMockUser();	
 	
+	@Rule 
+	public TestRule userAvailabilityRule = (base, description) -> new Statement() {
 
-	@ClassRule
-	public static DefaultRule fr = new DefaultRule(driver);
-	
-	@Rule
-	public SingUpPositiveTestsConditionsRule signUpPageRule = new SingUpPositiveTestsConditionsRule(driver, user);
+		@Override
+		public void evaluate() throws Throwable {
+			try {
+				base.evaluate();
+			}
+			finally {
+				user.delete(true);
+			}
+		}
+	};
 		
 	@Test
 	public void checkSignUpFunctionality() {
 		CreateAccountResultPage resultPage = new SignUpPage(driver).get()			
-				.signUpAs(user);
-		System.out.println(12/0);
+				.signUpAs(user); 		
 		assertTrue(resultPage.isLoggedIn());
 		assertNull(resultPage.getError());	
 	}

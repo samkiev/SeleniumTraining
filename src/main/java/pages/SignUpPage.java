@@ -32,27 +32,21 @@ public class SignUpPage extends BasePage<SignUpPage> {
 	}
 	
 	public CreateAccountResultPage signUpAs(User user){
-		
-		System.out.println("Sing Up as " + user.getLogin());
-		usernameField.clear();
-		usernameField.sendKeys(user.getLogin());
-		passwordField.clear();
-		passwordField.sendKeys(user.getPassword());
-		confirmPasswordField.clear();
-		confirmPasswordField.sendKeys(user.getPassword());
-		fullNameField.clear();
-		fullNameField.sendKeys(user.getName());
-		emailField.clear();
-		emailField.sendKeys(user.getEmail());
+		log.info("Signing up as: {}", user);
+		sendKeys(usernameField, user.getLogin());		
+		sendKeys(passwordField, user.getPassword());
+		sendKeys(confirmPasswordField, user.getPassword());
+		sendKeys(fullNameField, user.getName());
+		sendKeys(emailField, user.getEmail());
 		signUpButton.click();	
 		
 		return new CreateAccountResultPage(driver, true);
 	}
-
+	
 	@Override
 	protected void isLoaded() throws Error {
 		Assert.assertTrue(!isLoggedIn());		 
-		Assert.assertEquals("Sign up [Jenkins]", driver.getTitle());
+		Assert.assertEquals("http://seltr-kbp1-1.synapse.com:8080/signup", driver.getCurrentUrl()); 
 	}
 
 	@Override

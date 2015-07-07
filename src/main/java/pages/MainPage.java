@@ -14,11 +14,16 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
 	@FindBy (id = "description-link")
 	private WebElement descriptionLinkElement;
 	
-	public MainPage(WebDriver driver){
+	public MainPage(WebDriver driver) {
 		super(driver);
 	}
 	
-	public ProjectPage choseFirstProjectLink(){		
+	public MainPage(WebDriver driver, boolean checkIfLoaded) {
+		super(driver, checkIfLoaded);
+	}
+	
+	public ProjectPage choseFirstProjectLink() {
+		log.info("Opening project: {}", getProjectName());
 		firstProjectLink.click();
 		return new ProjectPage(driver);
 	}
@@ -33,7 +38,7 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
 			Assert.assertTrue(descriptionLinkElement.isDisplayed());
 		}
 		catch (NoSuchElementException e) {
-			Assert.fail("Main page is not loaded");
+            Assert.fail("Main page is not loaded");	
 		}
 	}
 

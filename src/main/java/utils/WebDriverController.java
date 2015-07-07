@@ -1,7 +1,9 @@
 package utils;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -15,17 +17,17 @@ public class WebDriverController {
 	
 	private static WebDriver wd = null;
 	
-	private static boolean isBrowserDown() {
+	private static boolean isBrowserDown(WebDriver driver) {
 		try {
-			wd.getCurrentUrl();
+			driver.getCurrentUrl();
 			return false;
 		}
 		catch (SessionNotFoundException e) {}
 		return true;
 	}
 	
-	public static WebDriver getDriver() {
-		if (wd == null || isBrowserDown()) {
+	public static WebDriver getDriver() {		
+		if (wd == null || isBrowserDown(wd)) {
 			String browserName = System.getProperty("browser", "firefox").toLowerCase();
 			switch(browserName) {
 			case CHROME:
@@ -33,6 +35,7 @@ public class WebDriverController {
 				wd = new ChromeDriver(ProfileWebDriver.getChromeProfile());
 				break;
 			case FIREFOX:
+				
 				wd = new FirefoxDriver(ProfileWebDriver.getFirefoxProfile());
 				break;
 			case IE:
@@ -43,6 +46,11 @@ public class WebDriverController {
 				throw new IllegalStateException(String.format("Browser: '%s' is not supported!", browserName));
 			}
 		}
+		
+		// Switching logs off - after browser is already started
+		Logger log = Logger.getLogger("org.openqa.selenium.os.UnixProcess");
+		log.setLevel(Level.OFF);
+		
 		wd.manage().window().maximize();
 		return wd;
 	}

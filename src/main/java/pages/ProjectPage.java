@@ -23,11 +23,12 @@ public class ProjectPage extends AuthenticationBasePage<ProjectPage> {
 		super(driver);
 	}
 	
-	public LocalDateTime getBuildHistoryDate(){			
+	public LocalDateTime getBuildHistoryDate() {			
 		return LocaleDateExtractor.getBuildHistoryCorrectDate(buildHistoryDateElement.getText());					
 	}
 	
-	public BuildPage goToBuildPage(){		
+	public BuildPage goToBuildPage() {	
+		log.info("Opening Build Page");
 		buildHistoryDateElement.click();
 		return new BuildPage(driver);
 	}

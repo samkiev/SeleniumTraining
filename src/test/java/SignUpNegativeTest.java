@@ -1,42 +1,57 @@
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.junit.runners.model.Statement;
 
 import pages.CreateAccountResultPage;
-import pages.DeletePage;
-import pages.PeoplePage;
 import pages.SignUpPage;
-import rules.SignUpNegativeClassConditionRule;
-import rules.SignUpNegativeTestsConditionsRule;
 import utils.User;
-import utils.WebDriverController;
+
 
 @RunWith(JUnit4.class)
-public class SignUpNegativeTest {
+public class SignUpNegativeTest extends BaseTest {
 	
-	private static WebDriver driver = WebDriverController.getDriver();	
-	private static CreateAccountResultPage resultPage;
-	private static User user = User.generateMockUser();
+	private CreateAccountResultPage resultPage;
 	
+	private User user = null;
+	
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.METHOD)
+	public @interface CleanUpRequired {}
+		
+	@Rule 
+	public TestRule userAvailabilityRule = (base, d) -> new Statement() {
 
-	@ClassRule
-	public static SignUpNegativeClassConditionRule classRule = new SignUpNegativeClassConditionRule(driver, user);
-	
-	@Rule
-	public SignUpNegativeTestsConditionsRule testsRule = new SignUpNegativeTestsConditionsRule(driver, user);
+		@Override
+		public void evaluate() throws Throwable {
+			boolean shouldCleanUp = d.getAnnotation(CleanUpRequired.class) != null;
+			
+			if (shouldCleanUp) {
+				user = User.generateMockUser().register();
+			}
+			try {
+				base.evaluate();
+			}
+			finally {
+				if (shouldCleanUp) {
+					user.delete();
+				}
+			}
+		}
+	};
 	
 	@Test
-	public void checkIfAllFieldIsEmpty() {		
+	public void checkIfAllFieldIsEmpty() {	
 		 resultPage = new SignUpPage(driver).get()			
 				.signUpAs(User.generateEmptyFieldsUser());		
 		assertTrue(!resultPage.isLoggedIn());
@@ -50,22 +65,14 @@ public class SignUpNegativeTest {
 		assertTrue(!resultPage.isLoggedIn());
 		assertNotNull(resultPage.getError());	
 	}
+	
+	@CleanUpRequired
 	@Test
 	public void checkSignUpFunctionality() {
 		resultPage = new SignUpPage(driver).get()			
 				.signUpAs(user);
 		assertTrue(!resultPage.isLoggedIn());
 		assertNotNull(resultPage.getError());	
-	}
-	
-	@After
-	public void testCleaner(){
-		if (resultPage.isLoggedIn()) {
-			WebDriver cleaningDriver = new FirefoxDriver();
-			new DeletePage(cleaningDriver, user).get().deleteUser();
-			cleaningDriver.quit();
-			driver.manage().deleteAllCookies();
-		}
-	}
+	}	
 }
 
