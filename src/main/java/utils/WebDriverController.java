@@ -34,8 +34,7 @@ public class WebDriverController {
 				System.setProperty("webdriver.chrome.driver", String.format("%s/drivers/chromedriver.exe", System.getProperty("user.dir")));
 				wd = new ChromeDriver(ProfileWebDriver.getChromeProfile());
 				break;
-			case FIREFOX:
-				
+			case FIREFOX:				
 				wd = new FirefoxDriver(ProfileWebDriver.getFirefoxProfile());
 				break;
 			case IE:
