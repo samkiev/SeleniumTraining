@@ -1,5 +1,5 @@
 import static org.junit.Assert.*;
-import org.junit.Rule;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
@@ -12,14 +12,14 @@ import utils.User;
 @RunWith(JUnit4.class)
 public class SearchTest extends BaseTest {
 	
-	private User user = null;	
+	private static User user;	
 
-	@Rule
-	public TestRule userAvailabilityRule = (base, d) -> new Statement() {
+	@ClassRule
+	public static TestRule userAvailabilityRule = (base, d) -> new Statement() {
 
 		@Override
 		public void evaluate() throws Throwable {
-			user = User.generateMockUser().register();
+			user = User.generateSearchUser().register();
 			try {
 				base.evaluate();
 			} finally {
@@ -31,7 +31,14 @@ public class SearchTest extends BaseTest {
 	@Test
 	public void checkSearchFunctionality() {
 		UserPage userPage = new MainPage(driver).get()
-				.searchUserWith(user.getName());			
+				.searchUser("ia", user.getName());			
 		assertEquals(userPage.getUserPageMainContext(), user.getName());
+	}
+	
+	@Test
+	public void searchAnyUser(){
+		UserPage up = new MainPage(driver).get()
+				.searchAnyUser("a");		
+		assertEquals(up.getUserLogin(), up.getUserPageMainContext());
 	}
 }

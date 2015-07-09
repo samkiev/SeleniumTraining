@@ -1,5 +1,10 @@
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.AssumptionViolatedException;
@@ -12,7 +17,6 @@ import org.junit.runners.model.Statement;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import com.google.common.io.Files;
 import utils.WebDriverController;
 
 
@@ -48,11 +52,15 @@ public class BaseTest {
 			log.info("Test: {} - FAILED. Reason: {}\n", d.getMethodName(), e.getMessage());
 				String browseName = System.getProperty("browser").toLowerCase();
                 File dir = new File("reports/screenshots/" + browseName);
-                dir.mkdirs();              
-                File outputFile = new File(dir, d.getMethodName() + ".png");
+                dir.mkdirs();   
+                Path filePath = Paths.get(dir.toString()+"/" + d.getMethodName() + ".png");
                 File originalFile = (((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE));              
                 try {
-					Files.copy(originalFile, outputFile);
+                	CopyOption[] options = new CopyOption[]{
+                		      StandardCopyOption.REPLACE_EXISTING,
+                		      StandardCopyOption.COPY_ATTRIBUTES
+                		    }; 
+					Files.copy(originalFile.toPath(), filePath, options);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

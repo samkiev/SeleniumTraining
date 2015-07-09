@@ -47,6 +47,15 @@ public class User {
 		return user;
 	}
 	
+	public static User generateSearchUser(){
+		User user = new User();
+		user.login = "special_user_login";
+		user.password = "password";
+		user.name = "special_user_name";
+		user.email = "special@user.com";
+		return user;
+	}
+	
 	public static User setLoginAndPassword(String login, String password){		
 		User user = new User();
 		user.login = login;

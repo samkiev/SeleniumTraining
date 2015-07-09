@@ -1,7 +1,5 @@
 package pages;
-
 import java.util.List;
-
 import org.junit.Assert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -11,7 +9,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 public class MainPage extends AuthenticationBasePage<MainPage> {
 	
 	@FindBy(xpath = "//*[@id='projectstatus']//tr[2]/td[3]/a")
@@ -28,6 +25,11 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
 	
 	@FindBy (css = ".yui-ac-bd>ul>li")
 	List<WebElement> listOfDropDownNames;
+	
+	private String randomName = null;
+	
+	private Actions action = new Actions(driver);				
+
 	
 	public MainPage(WebDriver driver) {
 		super(driver);
@@ -47,26 +49,46 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
 		return firstProjectLink.getText();
 	}
 	
-	public UserPage searchUserWith(String userName){		
-		searchBoxField.sendKeys(userName.substring(0, 13));
-		selectExpectedUser(userName);
-		return new UserPage(driver, false, userName);
+	public UserPage searchUser(String token, String expectedUser){		
+		searchBoxField.sendKeys(token);
+		selectExpectedUser(expectedUser);
+		return new UserPage(driver, false, expectedUser);
+	}
+	
+	public UserPage searchAnyUser(String token){
+		searchBoxField.sendKeys(token);
+		selectAnyUser();
+		return new UserPage(driver, false, randomName);
+	}
+	
+	private void selectAnyUser() {
+		waitForDropDownElement();
+		WebElement randomUserName = listOfDropDownNames.get((int) (Math.random()*listOfDropDownNames.size()-1));
+		randomName = randomUserName.getText();
+		selectDesiredItem(randomUserName);
 	}
 
 	private void selectExpectedUser(String userName) {
-		WebDriverWait wait = new WebDriverWait(driver, 2);		
-		wait.until(ExpectedConditions.visibilityOf(expectedSearchElement));
+		waitForDropDownElement();
 		WebElement expectedUserName = null;		
 			for (WebElement liName : listOfDropDownNames) {
 				if (liName.getText().equals(userName)) {
 					expectedUserName = liName;
 				}
 			}			
-		Actions action = new Actions(driver);
-		action.moveToElement(expectedUserName).click()
-				.sendKeys(searchBoxField, Keys.ENTER)
-				.build()
-				.perform();
+		selectDesiredItem(expectedUserName);
+	}
+	
+	private void waitForDropDownElement() {
+		WebDriverWait wait = new WebDriverWait(driver, 2);		
+		wait.until(ExpectedConditions.visibilityOf(expectedSearchElement));
+	}
+	
+	private void selectDesiredItem(WebElement randomUserName) {
+		action.moveToElement(randomUserName).click()
+		.sendKeys(searchBoxField, Keys.ENTER)
+		.build()
+		.perform();
 	}
 	
 	@Override
