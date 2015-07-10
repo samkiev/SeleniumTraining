@@ -1,6 +1,7 @@
 package pages;
 
 import org.junit.Assert;
+import org.openqa.selenium.NoSuchContextException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,7 +14,7 @@ public class UserPage extends AuthenticationBasePage<UserPage> {
 	private WebElement mainPanelContentElement;
 			
 		
-	protected UserPage(WebDriver driver, boolean checkIfLoaded, String userLogin){
+	public UserPage(WebDriver driver, boolean checkIfLoaded, String userLogin){
 		super(driver, checkIfLoaded);
 		this.userLogin = userLogin;
 	}
@@ -32,7 +33,7 @@ public class UserPage extends AuthenticationBasePage<UserPage> {
 		try {
 			Assert.assertEquals(driver.getCurrentUrl(), "http://seltr-kbp1-1.synapse.com:8080/user/" + getUserLogin());
 		}
-		catch (Exception e) {
+		catch (NoSuchContextException e) {
 			Assert.fail(String.format("User page is not loaded. Url: %s", driver.getCurrentUrl()));
 		}		
 	}

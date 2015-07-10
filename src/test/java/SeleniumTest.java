@@ -1,12 +1,9 @@
 import static org.junit.Assert.*;
 import static utils.DateTimeMatcher.*;
-
 import java.time.LocalDateTime;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
 import pages.LoginPage;
 import pages.MainPage;
 import pages.ProjectPage;

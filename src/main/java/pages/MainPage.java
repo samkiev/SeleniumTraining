@@ -21,15 +21,12 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
 	private WebElement searchBoxField;
 	
 	@FindBy (id = "search-box-completion")
-	WebElement expectedSearchElement;
+	private WebElement expectedSearchElement;
 	
 	@FindBy (css = ".yui-ac-bd>ul>li")
-	List<WebElement> listOfDropDownNames;
+	List<WebElement> listOfDropDownNames;	
 	
-	private String randomName = null;
-	
-	private Actions action = new Actions(driver);				
-
+	private Actions action = new Actions(driver);	
 	
 	public MainPage(WebDriver driver) {
 		super(driver);
@@ -53,21 +50,8 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
 		searchBoxField.sendKeys(token);
 		selectExpectedUser(expectedUser);
 		return new UserPage(driver, false, expectedUser);
-	}
+	}	
 	
-	public UserPage searchAnyUser(String token){
-		searchBoxField.sendKeys(token);
-		selectAnyUser();
-		return new UserPage(driver, false, randomName);
-	}
-	
-	private void selectAnyUser() {
-		waitForDropDownElement();
-		WebElement randomUserName = listOfDropDownNames.get((int) (Math.random()*listOfDropDownNames.size()-1));
-		randomName = randomUserName.getText();
-		selectDesiredItem(randomUserName);
-	}
-
 	private void selectExpectedUser(String userName) {
 		waitForDropDownElement();
 		WebElement expectedUserName = null;		

@@ -74,7 +74,6 @@ public class BaseTest {
 		@Override
 		protected void starting(Description d) {
 			log.info("Starting test: {}", d.getMethodName());
-		}
-		
+		}		
 	};
 }
