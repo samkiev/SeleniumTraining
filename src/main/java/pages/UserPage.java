@@ -14,7 +14,7 @@ public class UserPage extends AuthenticationBasePage<UserPage> {
 	private WebElement mainPanelContentElement;
 			
 		
-	public UserPage(WebDriver driver, boolean checkIfLoaded, String userLogin){
+	protected UserPage(WebDriver driver, boolean checkIfLoaded, String userLogin){
 		super(driver, checkIfLoaded);
 		this.userLogin = userLogin;
 	}

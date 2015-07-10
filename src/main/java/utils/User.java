@@ -1,17 +1,14 @@
 package utils;
 
 import java.util.function.Consumer;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
 import pages.DeletePage;
 import pages.SignUpPage;
 
 public class User {
 
 	private boolean isExisting;
-	private int addToLogin = (int) (Math.random()*10000);
 	private String login;
 	private String password;
 	private String name;
@@ -19,10 +16,28 @@ public class User {
 	
 	private User() {
 		isExisting = false;
-		this.login = "testuserlogin"+ addToLogin ;
-		this.password = "password"+ addToLogin;
-		this.name = "testusername" + addToLogin;
+		this.login = nameGenerator() ;
+		this.password = "password";
+		this.name = login;
 		this.email = login + "@testuser.com";
+	}
+	
+	private String nameGenerator() {
+		char[] abcArray = new char[26];
+		for (int i = 0; i < abcArray.length; i++) {
+			abcArray[i] = (char) ('a' + i);
+		}
+		String name = null;
+		for (int i = 0; i < 15; i++) {
+			name = name + abcArray[(int) (Math.random() * abcArray.length - 1)];
+		}
+		return name;
+	}
+	
+	public static String getRandomSubstringOf(String name){
+		int index = (int) (Math.random()*name.length()-4);
+		name = name.substring(index, index + 2);
+		return name;
 	}
 	
 	public static User generateMockUser(){
