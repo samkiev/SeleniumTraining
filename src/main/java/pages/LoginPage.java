@@ -16,8 +16,8 @@ public class LoginPage extends BasePage<LoginPage> {
 	private WebElement passwordField;
 	
 	@FindBy (id ="yui-gen1-button")
-	private WebElement submitButton;		
-	
+	private WebElement submitButton;
+		
 	public LoginPage(WebDriver driver){		
 		super(driver);
 	}
@@ -29,6 +29,8 @@ public class LoginPage extends BasePage<LoginPage> {
 		submitButton.click();
 		return new MainPage(driver);
 	}
+	
+	
 
 	@Override
 	protected String getPageUrl() {

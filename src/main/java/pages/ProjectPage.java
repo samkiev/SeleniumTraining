@@ -33,7 +33,7 @@ public class ProjectPage extends AuthenticationBasePage<ProjectPage> {
 		return new BuildPage(driver);
 	}
 	public String getProjectName(){
-		return projectNameElement.getText();
+		return projectNameElement.getText().replaceAll(" ", "%20");
 	}
 	
 	public boolean isOnProjectPage(){

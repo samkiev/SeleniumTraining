@@ -13,7 +13,7 @@ public class BuildPage extends AuthenticationBasePage<BuildPage> {
 	@FindBy(className = "build-caption")
 	private WebElement buildDateElement;
 	
-	@FindBy(xpath = "a//a")
+	@FindBy(xpath = ".//*[@id='breadcrumbs']/li[5]/a")
 	private WebElement buildPageUniqueElement;
 		
 	public BuildPage(WebDriver driver){		
@@ -22,6 +22,13 @@ public class BuildPage extends AuthenticationBasePage<BuildPage> {
 	
 	public LocalDateTime getBuildPageDate() {						
 		return LocaleDateExtractor.getBuildPageCorrectDate(getBuildPageDateText());
+	}
+	
+	public String getBuildVersion(){
+		String buildVersinElementText = buildPageUniqueElement.getText();
+		StringBuffer output = new StringBuffer(buildVersinElementText);	
+		//System.out.println(output.deleteCharAt(0).toString());
+		return output.deleteCharAt(0).toString();
 	}
 
 	private String getBuildPageDateText() {
