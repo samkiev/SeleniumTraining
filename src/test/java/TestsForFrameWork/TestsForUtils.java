@@ -11,7 +11,7 @@ import java.io.IOException;
  */
 public class TestsForUtils extends BaseTest {
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void getAPIWithNullParameter() {
         try {
             ApiDataGetter.getPageApi(null);

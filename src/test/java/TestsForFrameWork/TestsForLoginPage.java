@@ -5,11 +5,11 @@ import org.junit.Test;
 import pages.LoginPage;
 
 /**
- * Created by tetiana.sviatska on 7/15/2015.
+ * Created by tetiana.sviatska on 7/15/2015.                                                               FIX
  */
 public class TestsForLoginPage extends BaseTest {
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void LoadPageWithNullArgument() {
         try {
             new LoginPage(null).get();
@@ -18,7 +18,7 @@ public class TestsForLoginPage extends BaseTest {
         }
     }
 
-    @Test(expected = Error.class)
+    @Test(expected = IllegalArgumentException.class)
     public void loginWithIncorrectArguments() {
         LoginPage lp = new LoginPage(driver).get();
         lp.loginAs(null, null);

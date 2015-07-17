@@ -22,7 +22,7 @@ public class ApiDataGetter {
         return LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
     }
 
-    public static JSONObject request(String link) throws IOException {
+    private static JSONObject request(String link) throws IOException {
         String username = "admin";
         String password = "ab4f051e680095cb9a5d655dc48aa15c";
 
@@ -47,14 +47,5 @@ public class ApiDataGetter {
 
     public static JSONObject getPageApi(String url) throws JSONException, IOException {
         return new JSONObject(request(url + "api/json?pretty=true").toString());
-    }
-
-    public static void main(String[] args) throws Exception {
-        JSONObject jo = getPageApi("http://seltr-kbp1-1.synapse.com:8080/job/Selenium%20Training/2/");
-
-        long timestamp = (long) (jo.get("timestamp"));
-        LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault());
-
-        System.out.println(date);
     }
 }

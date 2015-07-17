@@ -9,7 +9,7 @@ import pages.BuildPage;
  */
 public class TestsForBuildPage extends BaseTest {
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void loadPageWithNullArgument() {
         try {
             BuildPage lp = new BuildPage(null).get();

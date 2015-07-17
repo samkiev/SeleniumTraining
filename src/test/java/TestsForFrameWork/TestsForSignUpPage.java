@@ -5,11 +5,11 @@ import org.junit.Test;
 import pages.SignUpPage;
 
 /**
- * Created by tetiana.sviatska on 7/16/2015.
+ * Created by tetiana.sviatska on 7/16/2015.                                    FIX
  */
 public class TestsForSignUpPage extends BaseTest {
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void loadPageWithNullArgument() {
         try {
             SignUpPage signUpPage = new SignUpPage(null).get();
@@ -18,7 +18,7 @@ public class TestsForSignUpPage extends BaseTest {
         }
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void signUpWithNullArgument() {
         try {
             SignUpPage signUpPage = new SignUpPage(driver).get();

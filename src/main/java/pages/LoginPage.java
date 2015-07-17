@@ -23,7 +23,7 @@ public class LoginPage extends BasePage<LoginPage> {
         super(driver);
     }
 
-    public MainPage loginAs(String login, String password) {
+    public MainPage loginAs(@NotNull String login, @NotNull String password) {
         log.info("Logging in using (Login: {}, Password: {})", login, password);
         loginField.sendKeys(login);
         passwordField.sendKeys(password);

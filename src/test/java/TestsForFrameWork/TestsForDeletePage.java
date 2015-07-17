@@ -9,7 +9,7 @@ import pages.DeletePage;
  */
 public class TestsForDeletePage extends BaseTest {
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void loadPageWithNullArgument() {
         try {
             DeletePage deletePage = new DeletePage(null, "").get();

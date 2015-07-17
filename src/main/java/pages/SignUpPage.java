@@ -28,7 +28,7 @@ public class SignUpPage extends BasePage<SignUpPage> {
     @FindBy(id = "yui-gen1-button")
     private WebElement signUpButton;
 
-    public SignUpPage(WebDriver driver) {
+    public SignUpPage(@NotNull WebDriver driver) {
         super(driver);
     }
 
