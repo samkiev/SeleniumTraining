@@ -1,4 +1,3 @@
-import static org.junit.Assert.*;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -9,30 +8,32 @@ import pages.MainPage;
 import pages.UserPage;
 import utils.User;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(JUnit4.class)
 public class SearchTest extends BaseTest {
 
-	private static User user;	
+    private static User user;
 
-	@ClassRule
-	public static TestRule userAvailabilityRule = (base, d) -> new Statement() {
+    @ClassRule
+    public static TestRule userAvailabilityRule = (base, d) -> new Statement() {
 
-		@Override
-		public void evaluate() throws Throwable {
-			user = User.generateMockUser().register();
-			try {
-				base.evaluate();
-			} finally {
-				user.delete();
-			}
-		}
-	};
-	
-	@Test
-	public void checkSearchFunctionality() {
-		UserPage userPage = new MainPage(driver).get()
-				.searchUser(User.getRandomSubstringOf(user.getName()), user.getName());			
-		assertEquals(userPage.getUserPageMainContext(), user.getName());
-	}
-	
+        @Override
+        public void evaluate() throws Throwable {
+            user = User.generateMockUser().register();
+            try {
+                base.evaluate();
+            } finally {
+                user.delete();
+            }
+        }
+    };
+
+    @Test
+    public void checkSearchFunctionality() {
+        UserPage userPage = new MainPage(driver).get()
+                .searchUser(User.getRandomSubstringOf(user.getName()), user.getName());
+        assertEquals(userPage.getUserPageMainContext(), user.getName());
+    }
+
 }

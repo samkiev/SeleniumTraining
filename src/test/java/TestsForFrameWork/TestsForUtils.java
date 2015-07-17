@@ -1,4 +1,5 @@
 package TestsForFrameWork;
+
 import org.junit.Assert;
 import org.junit.Test;
 import utils.ApiDataGetter;
@@ -8,10 +9,10 @@ import java.io.IOException;
 /**
  * Created by tetiana.sviatska on 7/16/2015.
  */
-public class TestsForUtils extends BaseTest{
+public class TestsForUtils extends BaseTest {
 
     @Test
-    public void getAPIWithNullParameter(){
+    public void getAPIWithNullParameter() {
         try {
             ApiDataGetter.getPageApi(null);
         } catch (IOException e) {
@@ -20,7 +21,7 @@ public class TestsForUtils extends BaseTest{
     }
 
     @Test
-    public void requestToNonexistentUrl(){
+    public void requestToNonexistentUrl() {
         try {
             ApiDataGetter.request("fdfuurfgauergf");
         } catch (Throwable e) {
@@ -29,7 +30,7 @@ public class TestsForUtils extends BaseTest{
     }
 
     @Test
-    public void getNonExistentDateBuildFromApi(){
+    public void getNonExistentDateBuildFromApi() {
         try {
             ApiDataGetter.getApiBuildDate("fdfuurfgauergf", "dhds");
         } catch (Throwable e) {
@@ -38,7 +39,7 @@ public class TestsForUtils extends BaseTest{
     }
 
     @Test(expected = Error.class)
-    public void CreateApi(){
+    public void CreateApi() {
         ApiDataGetter apiDataGetter = new ApiDataGetter();
     }
 

@@ -1,4 +1,5 @@
 package TestsForFrameWork;
+
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
@@ -12,7 +13,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import pages.LoginPage;
-import utils.WebDriverController;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -40,14 +40,6 @@ public class BaseTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-
-    @Target(ElementType.METHOD)
-    @Retention(RetentionPolicy.RUNTIME)
-    protected @interface ChangeViewConfig {
-        String value() default "";
-    }
-
-
     @Rule
     public TestRule changingViewConfigRule = (Statement base, Description d) -> new Statement() {
         @Override
@@ -59,8 +51,7 @@ public class BaseTest {
             }
             try {
                 base.evaluate();
-            }
-            finally {
+            } finally {
                 if (config != null) {
                     defaultViewConfig("All");
                 }
@@ -68,7 +59,7 @@ public class BaseTest {
         }
     };
 
-    public void defaultViewConfig(String view){
+    public void defaultViewConfig(String view) {
         try {
             driver.get("http://seltr-kbp1-1.synapse.com:8080/configure");
             WebElement config = driver.findElement(By.cssSelector("select[name=\"primaryView\"]"));
@@ -76,8 +67,14 @@ public class BaseTest {
             Select select = new Select(config);
             select.selectByValue(view);
             save.click();
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             e.printStackTrace();
         }
+    }
+
+    @Target(ElementType.METHOD)
+    @Retention(RetentionPolicy.RUNTIME)
+    protected @interface ChangeViewConfig {
+        String value() default "";
     }
 }

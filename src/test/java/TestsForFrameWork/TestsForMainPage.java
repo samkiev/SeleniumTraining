@@ -1,12 +1,10 @@
 package TestsForFrameWork;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.TimeoutException;
 import pages.MainPage;
 import pages.ProjectPage;
-import utils.ApiDataGetter;
-
-import java.io.IOException;
 
 
 /**
