@@ -1,5 +1,6 @@
 package pages;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.openqa.selenium.NoSuchContextException;
 import org.openqa.selenium.WebDriver;
@@ -14,9 +15,9 @@ public class UserPage extends AuthenticationBasePage<UserPage> {
     private WebElement mainPanelContentElement;
 
 
-    protected UserPage(WebDriver driver, boolean checkIfLoaded, String userLogin) {
+    protected UserPage(@NotNull WebDriver driver, @NotNull boolean checkIfLoaded, @NotNull String userLogin) {
         super(driver, checkIfLoaded);
-        this.userLogin = userLogin;
+        this.userLogin = userLogin.replace(" ", "%20");
     }
 
     public String getUserLogin() {

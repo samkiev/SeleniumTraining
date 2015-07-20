@@ -11,7 +11,7 @@ public abstract class AuthenticationBasePage<T extends AuthenticationBasePage<T>
         super(wd);
     }
 
-    protected AuthenticationBasePage(@NotNull WebDriver wd, boolean checkIfLoaded) {
+    protected AuthenticationBasePage(@NotNull WebDriver wd, @NotNull boolean checkIfLoaded) {
         super(wd, checkIfLoaded);
     }
 

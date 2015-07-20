@@ -9,11 +9,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.LoadableComponent;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<T> {
 
     protected final Logger log = LogManager.getLogger(this);
     protected WebDriver driver;
+//    WebDriverWait wait = new WebDriverWait(driver, 5);
     @FindBy(css = ".login a[href*='logout']")
     protected WebElement logOutLink;
     @FindBy(css = "a.inverse")
@@ -23,7 +25,7 @@ public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<
         this(wd, false);
     }
 
-    protected BasePage(@NotNull WebDriver wd, boolean checkIfLoaded) {
+    protected BasePage(@NotNull WebDriver wd, @NotNull boolean checkIfLoaded) {
         this.driver = wd;
         PageFactory.initElements(driver, this);
         if (checkIfLoaded) {

@@ -11,37 +11,37 @@ import java.io.IOException;
  */
 public class TestsForUtils extends BaseTest {
 
-    @Test(expected = IllegalArgumentException.class)
-    public void getAPIWithNullParameter() {
-        try {
-            ApiDataGetter.getPageApi(null);
-        } catch (IOException e) {
-            Assert.fail(e.getMessage());
-        }
-    }
-
-    @Test
-    public void requestToNonexistentUrl() {
-        try {
-            ApiDataGetter.request("fdfuurfgauergf");
-        } catch (Throwable e) {
-            Assert.fail(e.getMessage());
-        }
-    }
+//    @Test(expected = IllegalArgumentException.class)
+//    public void getAPIWithNullParameter() {
+//        try {
+//            ApiDataGetter.getPageApi(null);
+//        } catch (IOException e) {
+//            Assert.fail(e.getMessage());
+//        }
+//    }
+//
+//    @Test
+//    public void requestToNonexistentUrl() {
+//        try {
+//            ApiDataGetter.request("fdfuurfgauergf");
+//        } catch (Throwable e) {
+//            Assert.fail(e.getMessage());
+//        }
+//    }
 
     @Test
     public void getNonExistentDateBuildFromApi() {
         try {
             ApiDataGetter.getApiBuildDate("fdfuurfgauergf", "dhds");
-        } catch (Throwable e) {
+        } catch (Exception e) {
             Assert.fail(e.getMessage());
         }
     }
-
-    @Test(expected = Error.class)
-    public void CreateApi() {
-        ApiDataGetter apiDataGetter = new ApiDataGetter();
-    }
+//
+//    @Test(expected = Error.class)
+//    public void CreateApi() {
+//        ApiDataGetter apiDataGetter = new ApiDataGetter();
+//    }
 
 
 }

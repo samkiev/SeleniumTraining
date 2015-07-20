@@ -1,5 +1,6 @@
 package pages;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -11,14 +12,19 @@ import java.time.LocalDateTime;
 
 public class BuildPage extends AuthenticationBasePage<BuildPage> {
 
+    private final String projectName;
+    private final String build;
     @FindBy(className = "build-caption")
     private WebElement buildDateElement;
 
     @FindBy(xpath = ".//*[@id='breadcrumbs']/li[5]/a")
     private WebElement buildPageUniqueElement;
 
-    public BuildPage(WebDriver driver) {
+
+    public BuildPage(@NotNull WebDriver driver, String projectName, String build) {
         super(driver);
+        this.projectName = projectName;
+        this.build = build;
     }
 
     public LocalDateTime getBuildPageDate() {
@@ -28,7 +34,6 @@ public class BuildPage extends AuthenticationBasePage<BuildPage> {
     public String getBuildVersion() {
         String buildVersinElementText = buildPageUniqueElement.getText();
         StringBuffer output = new StringBuffer(buildVersinElementText);
-        //System.out.println(output.deleteCharAt(0).toString());
         return output.deleteCharAt(0).toString();
     }
 
@@ -53,6 +58,6 @@ public class BuildPage extends AuthenticationBasePage<BuildPage> {
 
     @Override
     protected String getPageUrl() {
-        return "http://seltr-kbp1-1.synapse.com:8080/job/" + new MainPage(driver).getProjectName();
+        return ("http://seltr-kbp1-1.synapse.com:8080/job/" + projectName + "/" + build);
     }
 }

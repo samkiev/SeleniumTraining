@@ -5,7 +5,7 @@ import org.junit.Test;
 import pages.DeletePage;
 
 /**
- * Created by tetiana.sviatska on 7/16/2015.
+ * Created by tetiana.sviatska on 7/16/2015.                                            FIX
  */
 public class TestsForDeletePage extends BaseTest {
 

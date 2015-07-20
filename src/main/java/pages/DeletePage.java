@@ -1,6 +1,7 @@
 package pages;
 
 import org.hamcrest.Matchers;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -14,9 +15,9 @@ public class DeletePage extends AuthenticationBasePage<DeletePage> {
     @FindBy(id = "yui-gen1-button")
     private WebElement confirmDeleteButton;
 
-    public DeletePage(WebDriver driver, String userName) {
+    public DeletePage(@NotNull WebDriver driver, @NotNull String userName) {
         super(driver);
-        this.userName = userName;
+        this.userName = userName.replaceAll(" ", "%20");
     }
 
     public MainPage deleteUser() {
@@ -27,8 +28,9 @@ public class DeletePage extends AuthenticationBasePage<DeletePage> {
 
     @Override
     protected void isLoaded() throws Error {
+            Assert.assertTrue(isLoggedIn());
         try {
-            Assert.assertThat(driver.getCurrentUrl().replaceAll("$/", ""), Matchers.equalToIgnoringCase(getPageUrl().replaceAll("$/", "")));
+             Assert.assertThat(driver.getCurrentUrl().replaceAll("$/", ""), Matchers.equalToIgnoringCase(getPageUrl().replaceAll("$/", "")));
         } catch (NoSuchElementException e) {
             Assert.fail(e.getMessage());
         }

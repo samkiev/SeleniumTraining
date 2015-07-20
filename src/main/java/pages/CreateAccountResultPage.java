@@ -1,6 +1,7 @@
 package pages;
 
 import org.hamcrest.Matchers;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +13,7 @@ public class CreateAccountResultPage extends BasePage<CreateAccountResultPage> {
     @FindBy(className = "error")
     private WebElement error;
 
-    protected CreateAccountResultPage(WebDriver wd, boolean checkIfLoaded) {
+    protected CreateAccountResultPage(@NotNull WebDriver wd, @NotNull boolean checkIfLoaded) {
         super(wd, checkIfLoaded);
     }
 

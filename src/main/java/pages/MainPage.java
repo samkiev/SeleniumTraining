@@ -1,5 +1,6 @@
 package pages;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -11,37 +12,68 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.Random;
 
 public class MainPage extends AuthenticationBasePage<MainPage> {
 
+    WebElement projectLinkElement;
+
     @FindBy(css = ".yui-ac-bd>ul>li")
     List<WebElement> listOfDropDownNames;
-    @FindBy(xpath = "//*[@id='projectstatus']//tr[2]/td[3]/a")
-    private WebElement firstProjectLink;
+
+    @FindBy(css = "#projectstatus a.model-link:not([href*=\"Build\"]")
+    List<WebElement> listOfProjectLink;
+
     @FindBy(id = "description-link")
     private WebElement addDescriptionLinkElement;
+
     @FindBy(id = "search-box")
     private WebElement searchBoxField;
+
     @FindBy(id = "yui-ac-content")
     private WebElement expectedSearchElement;
+
     private Actions action = new Actions(driver);
 
-    public MainPage(WebDriver driver) {
+    public MainPage(@NotNull WebDriver driver) {
         super(driver);
     }
 
-    public MainPage(WebDriver driver, boolean checkIfLoaded) {
+    public MainPage(@NotNull WebDriver driver, @NotNull boolean checkIfLoaded) {
         super(driver, checkIfLoaded);
     }
 
-    public ProjectPage choseFirstProjectLink() {
-        log.info("Opening project: {}", getProjectName());
-        firstProjectLink.click();
-        return new ProjectPage(driver);
+    public ProjectPage choseProjectLink(@NotNull WebElement element) {
+        try{
+            log.info("Opening project: {}", element.getText());
+            element.click();
+        return new ProjectPage(driver, element.getText());
+        }
+            catch (NoSuchElementException e){}
+        WebElement randomElement = getRandomProject();
+        randomElement.click();
+        return new ProjectPage(driver, randomElement.getText());
     }
 
-    public String getProjectName() {
-        return firstProjectLink.getText();
+    public WebElement getFirstProject() {
+        try{
+        return listOfProjectLink.get(0);
+    }
+        catch (NoSuchElementException e){
+            System.out.println("Project list is empty");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public WebElement getRandomProject() {
+        try{
+            projectLinkElement = listOfProjectLink.get(new Random().nextInt(listOfProjectLink.size()));
+            return projectLinkElement;
+        }
+        catch (NoSuchElementException e){
+            System.out.println("Project list is empty");
+            throw new RuntimeException(e);
+        }
     }
 
     public UserPage searchUser(String token, String expectedUser) {
@@ -62,7 +94,7 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
     }
 
     private void waitForDropDownElement() {
-        WebDriverWait wait = new WebDriverWait(driver, 2);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.visibilityOf(expectedSearchElement));
     }
 
@@ -78,7 +110,7 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
         try {
             Assert.assertTrue(addDescriptionLinkElement.isDisplayed());
         } catch (NoSuchElementException e) {
-            Assert.fail("Main page is not loaded");
+                Assert.fail("Main page is not loaded");
         }
     }
 
