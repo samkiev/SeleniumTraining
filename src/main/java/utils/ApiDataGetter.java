@@ -1,27 +1,29 @@
 package utils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.junit.Assert;
 
-import java.io.BufferedReader;
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Base64;
+import java.util.Scanner;
 
 public class ApiDataGetter {
 
-    public ApiDataGetter(){
-        throw new Error();
+    private final String auth;
+
+    private ApiDataGetter() {
+        this("admin", "ab4f051e680095cb9a5d655dc48aa15c");
     }
 
-    public static LocalDateTime getApiBuildDate(@NotNull String projectName, @NotNull String buildVersion) throws JSONException, IOException {
+    public ApiDataGetter(@NotNull String user, @NotNull String token) {
+        auth = new String(Base64.getEncoder().encode((user + ":" + token).getBytes()));
+    }
+
+    public LocalDateTime getApiBuildDate(@NotNull String projectName, @NotNull String buildVersion) {
 
         String url = "http://seltr-kbp1-1.synapse.com:8080/job/" + projectName + "/" + buildVersion + "/";
         JSONObject jo = getPageApi(url);
@@ -29,30 +31,41 @@ public class ApiDataGetter {
         return LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
     }
 
-    private static JSONObject request(String link) throws IOException {
-        String username = "admin";
-        String password = "ab4f051e680095cb9a5d655dc48aa15c";
-
+    private JSONObject request(String link) {
+        HttpURLConnection conn = null;
+        String res = "";
         try {
             URL url = new URL(link);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            String enterData = new String(Base64.getEncoder().encode((username + ":" + password).getBytes()));
-            connection.setRequestProperty("Authorization", "Basic " + enterData);
-            connection.getContentEncoding();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder stringBuilder = new StringBuilder();
-            String message = null;
-            while ((message = reader.readLine()) != null) {
-                stringBuilder.append(message).append("\n");
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Authorization", "Basic " + auth);
+            conn.connect();
+
+            if(conn.getResponseCode() != HttpURLConnection.HTTP_OK)
+            {
+                throw new Error("Page not Found");
             }
-            return new JSONObject(stringBuilder.toString());
-        } catch (Exception e) {
-            System.out.println(" not found");
+                try (Scanner in = new Scanner(conn.getInputStream())) {
+                while (in.hasNextLine()) {
+                    res += in.nextLine();
+                }
+            }
         }
-        return null;
+        catch (IOException e) {
+            // TODO handle exception
+        }
+        finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+        return new JSONObject(res);
     }
 
-    private static JSONObject getPageApi(String url) throws JSONException, IOException {
-        return new JSONObject(request(url + "api/json?pretty=true").toString());
+    public static ApiDataGetter getAPUsingDefaultCredentials() {
+        return new ApiDataGetter();
+    }
+
+    private JSONObject getPageApi(String url) {
+        return request(url + "api/json?pretty=true");
     }
 }

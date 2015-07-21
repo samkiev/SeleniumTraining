@@ -10,8 +10,10 @@ import org.openqa.selenium.support.FindBy;
 import utils.LocaleDateExtractor;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class ProjectPage extends AuthenticationBasePage<ProjectPage> {
 
@@ -30,6 +32,7 @@ public class ProjectPage extends AuthenticationBasePage<ProjectPage> {
     private WebElement buildElement = null;
 
     private String projectName;
+    private List<String> el;
 
     public ProjectPage(@NotNull WebDriver driver, String projectName) {
         super(driver);
@@ -57,19 +60,50 @@ public class ProjectPage extends AuthenticationBasePage<ProjectPage> {
         return buildElements.get(new Random().nextInt(buildElements.size()));
     }
 
-    private WebElement getBuildHistoryDateElement(){
-        try {
-            return getBuildDateElement();
-        }
-        catch (NoSuchElementException e){
-            System.out.println(getProjectName()+ " has no builds");
-        }
-        return null;
+    public String[] getAvailableBuilds() {
+        List<String> list = buildElements.stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+        return list.toArray(new String[list.size()]);
     }
 
-    public LocalDateTime getBuildHistoryDate() {
+    public String getDateForBuildNumber(@NotNull String buildNumber) {
+        return buildElements.stream()
+                .filter(el -> buildNumber.equalsIgnoreCase(el.findElement(By.className("build-name")).getText().replace("#", "")))
+                .map(el -> el.findElement(By.className("build-details")).getText())
+                .findAny()
+                .orElseThrow(RuntimeException::new);
+    }
+
+    public List<String> getBuildNumbers(){
+        return (buildElements.stream().map(num -> (num.findElement(By.className("build-name")).getText()).replace("#", "")).collect(Collectors.toList()));
+        //System.out.println(el);
+
+//
+// for (String number : builds) {
+//            number = number.substring(number.indexOf("#")+1, number.indexOf(" "));
+//            System.out.println(number);
+//        }
+//        return builds;
+    }
+//    public BuildPage openBuildPage(String buildNumber) {
+//
+//    }
+
+//
+//    private WebElement getBuildHistoryDateElement(String buildNumber){
+//        try {
+//            return getDateForBuildNumber(buildNumber);
+//        }
+//        catch (NoSuchElementException e){
+//            System.out.println(getProjectName()+ " has no builds");
+//        }
+//        return null;
+//    }
+
+    public LocalDateTime getBuildHistoryDate(String buildNumber) {
         try {
-            return LocaleDateExtractor.getBuildHistoryCorrectDate(getBuildHistoryDateElement().getText());
+            return LocaleDateExtractor.getBuildHistoryCorrectDate(getDateForBuildNumber(buildNumber));
         }
         catch (NoSuchElementException e) {
             System.out.println(getProjectName()+ " has no bulds");

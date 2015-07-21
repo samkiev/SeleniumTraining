@@ -12,7 +12,7 @@ import pages.ProjectPage;
  */
 public class TestsForMainPage extends BaseTest {
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void createPageWithNullArgument() {
         try {
             MainPage mn = new MainPage(null);
@@ -21,7 +21,7 @@ public class TestsForMainPage extends BaseTest {
         }
     }
 
-    @Test
+    @Test(expected = Error.class)
     public void openMainPageUsingWrongConstructor() {
         try {
             MainPage mn = new MainPage(driver, true).get();

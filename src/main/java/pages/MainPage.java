@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeoutException;
 
 public class MainPage extends AuthenticationBasePage<MainPage> {
 
@@ -77,8 +78,13 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
     }
 
     public UserPage searchUser(String token, String expectedUser) {
-        searchBoxField.sendKeys(token);
-        selectExpectedUser(expectedUser);
+        try {
+
+            searchBoxField.sendKeys(token);
+            selectExpectedUser(expectedUser);
+
+        } catch (org.openqa.selenium.TimeoutException e) {
+        }
         return new UserPage(driver, false, expectedUser);
     }
 

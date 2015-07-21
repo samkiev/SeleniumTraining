@@ -29,11 +29,12 @@ public class TestsForUtils extends BaseTest {
 //        }
 //    }
 
-    @Test
+    @Test(expected = Error.class)
     public void getNonExistentDateBuildFromApi() {
         try {
-            ApiDataGetter.getApiBuildDate("fdfuurfgauergf", "dhds");
+            ApiDataGetter.getAPUsingDefaultCredentials().getApiBuildDate("fdfuurfgauergf", "dhds");
         } catch (Exception e) {
+            e.printStackTrace();
             Assert.fail(e.getMessage());
         }
     }

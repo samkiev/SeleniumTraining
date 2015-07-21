@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
 import pages.BuildPage;
+import pages.MainPage;
 import pages.ProjectPage;
 
 /**
@@ -52,9 +53,5 @@ public class TestsForProjectPage extends BaseTest {
 //            Assert.fail(e.getMessage());
 //        }
 //    }
-//    @ChangeViewConfig("Training")
-//    @Test
-//    public void debugTest(){
-//        new ProjectPage(driver).get();
-//    }
+
 }

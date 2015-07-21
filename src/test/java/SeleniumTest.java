@@ -11,6 +11,8 @@ import utils.User;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Random;
 
 import static org.junit.Assert.*;
 import static utils.DateTimeMatcher.dateEquals;
@@ -18,10 +20,12 @@ import static utils.DateTimeMatcher.dateEquals;
 @RunWith(JUnit4.class)
 public class SeleniumTest extends BaseTest {
 
+    private ApiDataGetter api = ApiDataGetter.getAPUsingDefaultCredentials();
+
     User user = User.setLoginAndPassword("admin", "admin");
     String firstProjectName = getFirstProjectName();
     String randomProjectName = getRandomrojectName();
-  
+
     @Test
     public void loginTest() {
         MainPage page = new LoginPage(driver).get().loginAs(user.getLogin(),
@@ -37,14 +41,20 @@ public class SeleniumTest extends BaseTest {
     }
 
     @Test
-    public void dateTest() throws JSONException, IOException {
-        ProjectPage projectPage = new ProjectPage(driver, firstProjectName).get();
-        LocalDateTime buildHistoryDate = projectPage.getBuildHistoryDate();
-        String buildVersion = projectPage.getBuildNumber();
-        BuildPage bp = new BuildPage(driver, firstProjectName, buildVersion).get();
+    public void dateTest() {
+        ProjectPage projectPage = new ProjectPage(driver, randomProjectName).get();
+        String randomBuild = getRandomBuild(projectPage.getBuildNumbers());
+        LocalDateTime buildHistoryDate = projectPage.getBuildHistoryDate(randomBuild);
+
+        BuildPage bp = new BuildPage(driver, randomProjectName, randomBuild).get();
         LocalDateTime buildDate = bp.getBuildPageDate();
         assertThat(buildHistoryDate, dateEquals(buildDate));
-        assertThat(ApiDataGetter.getApiBuildDate(firstProjectName, buildVersion), dateEquals(buildHistoryDate));
+        assertThat(api.getApiBuildDate(randomProjectName, randomBuild), dateEquals(buildHistoryDate));
+    }
+
+    private static String getRandomBuild(List<String> buildElementsNames){
+        Random random = new Random();
+        return buildElementsNames.get(random.nextInt(buildElementsNames.size()));
     }
 
     private String getFirstProjectName() {
