@@ -2,22 +2,16 @@ package pages;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 public class MainPage extends AuthenticationBasePage<MainPage> {
-
-    WebElement projectLinkElement;
 
     @FindBy(css = ".yui-ac-bd>ul>li")
     List<WebElement> listOfDropDownNames;
@@ -44,32 +38,11 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
         super(driver, checkIfLoaded);
     }
 
-    public ProjectPage choseProjectLink(@NotNull WebElement element) {
+    public List<String> getListOfProject() {
         try{
-            log.info("Opening project: {}", element.getText());
-            element.click();
-        return new ProjectPage(driver, element.getText());
-        }
-            catch (NoSuchElementException e){}
-        WebElement randomElement = getRandomProject();
-        randomElement.click();
-        return new ProjectPage(driver, randomElement.getText());
-    }
-
-    public WebElement getFirstProject() {
-        try{
-        return listOfProjectLink.get(0);
-    }
-        catch (NoSuchElementException e){
-            System.out.println("Project list is empty");
-            throw new RuntimeException(e);
-        }
-    }
-
-    public WebElement getRandomProject() {
-        try{
-            projectLinkElement = listOfProjectLink.get(new Random().nextInt(listOfProjectLink.size()));
-            return projectLinkElement;
+            return (listOfProjectLink.stream()
+                    .map(names -> (names.getText()))
+                    .collect(Collectors.toList()));
         }
         catch (NoSuchElementException e){
             System.out.println("Project list is empty");
@@ -79,11 +52,11 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
 
     public UserPage searchUser(String token, String expectedUser) {
         try {
-
             searchBoxField.sendKeys(token);
             selectExpectedUser(expectedUser);
-
-        } catch (org.openqa.selenium.TimeoutException e) {
+        }
+        catch (org.openqa.selenium.TimeoutException e) {
+            e.printStackTrace();
         }
         return new UserPage(driver, false, expectedUser);
     }
@@ -105,11 +78,17 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
     }
 
     private void selectDesiredItem(WebElement randomUserName) {
+        try{
         action.moveToElement(randomUserName).click()
                 .sendKeys(searchBoxField, Keys.ENTER)
                 .build()
                 .perform();
+    }catch (NoSuchElementException e){
+            e.printStackTrace();
+        }
+
     }
+
 
     @Override
     protected void isLoaded() throws Error {
