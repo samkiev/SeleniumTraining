@@ -1,12 +1,14 @@
 package pages;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.ApiDataGetter;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +19,7 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
     List<WebElement> listOfDropDownNames;
 
     @FindBy(css = "#projectstatus a.model-link:not([href*=\"Build\"]")
+    static
     List<WebElement> listOfProjectLink;
 
     @FindBy(id = "description-link")
@@ -29,6 +32,7 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
     private WebElement expectedSearchElement;
 
     private Actions action = new Actions(driver);
+    public final static String MAIN_PAGE_URL = "http://seltr-kbp1-1.synapse.com:8080/";
 
     public MainPage(@NotNull WebDriver driver) {
         super(driver);
@@ -38,13 +42,13 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
         super(driver, checkIfLoaded);
     }
 
-    public List<String> getListOfProject() {
+    public static List<String> getListOfProject() {
         try{
             return (listOfProjectLink.stream()
                     .map(names -> (names.getText()))
                     .collect(Collectors.toList()));
         }
-        catch (NoSuchElementException e){
+        catch (NoSuchElementException | NullPointerException e){
             System.out.println("Project list is empty");
             throw new RuntimeException(e);
         }
@@ -89,7 +93,6 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
 
     }
 
-
     @Override
     protected void isLoaded() throws Error {
         try {
@@ -101,6 +104,6 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
 
     @Override
     protected String getPageUrl() {
-        return "http://seltr-kbp1-1.synapse.com:8080/";
+        return MAIN_PAGE_URL;
     }
 }

@@ -24,13 +24,13 @@ public class ApiDataGetter {
     }
 
     public LocalDateTime getApiBuildDate(@NotNull String projectName, @NotNull String buildVersion) {
-
         String url = "http://seltr-kbp1-1.synapse.com:8080/job/" + projectName + "/" + buildVersion + "/";
         JSONObject jo = getPageApi(url);
         long timestamp = (long) (jo.get("timestamp")) / 1000;
         return LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
     }
 
+    @NotNull
     private JSONObject request(String link) {
         HttpURLConnection conn = null;
         String res = "";
@@ -61,11 +61,13 @@ public class ApiDataGetter {
         return new JSONObject(res);
     }
 
+    @NotNull
     public static ApiDataGetter getAPUsingDefaultCredentials() {
         return new ApiDataGetter();
     }
 
-    private JSONObject getPageApi(String url) {
+    @NotNull
+    public JSONObject getPageApi(String url) {
         return request(url + "api/json?pretty=true");
     }
 }

@@ -26,6 +26,8 @@ public class ProjectPage extends AuthenticationBasePage<ProjectPage> {
     @FindBy(id = "yui-gen1-button")
     private WebElement disableButton;
 
+    public static final String PROJECT_PAGE_URL = "http://seltr-kbp1-1.synapse.com:8080/job/%s/";
+
     private String projectName;
 
     public ProjectPage(@NotNull WebDriver driver, String projectName) {
