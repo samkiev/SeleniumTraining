@@ -1,15 +1,12 @@
 package pages;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import utils.ApiDataGetter;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,6 +65,7 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
     private void selectExpectedUser(String userName) {
         waitForDropDownElement();
         WebElement expectedUserName = null;
+        System.out.println(listOfDropDownNames.size());
         for (WebElement liName : listOfDropDownNames) {
             if (liName.getText().equals(userName)) {
                 expectedUserName = liName;
@@ -77,14 +75,20 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
     }
 
     private void waitForDropDownElement() {
-        WebDriverWait wait = new WebDriverWait(driver, 5);
-        wait.until(ExpectedConditions.visibilityOf(expectedSearchElement));
+        try{
+            WebDriverWait wait = new WebDriverWait(driver, 5);
+            wait.until(ExpectedConditions.visibilityOf(listOfDropDownNames.get(0)));
+        }
+        catch (TimeoutException e){
+            throw new Error("There is not search item in the Search box");
+        }
+
     }
 
     private void selectDesiredItem(WebElement randomUserName) {
         try{
         action.moveToElement(randomUserName).click()
-                .sendKeys(searchBoxField, Keys.ENTER)
+                .sendKeys(Keys.ENTER)
                 .build()
                 .perform();
     }catch (NoSuchElementException e){

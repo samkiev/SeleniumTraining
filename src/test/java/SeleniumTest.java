@@ -29,7 +29,9 @@ public class SeleniumTest extends BaseTest {
         for (int i = 0; i < projects.length(); i++){
             projectList[i] = projects.getJSONObject(i).getString("name").replaceAll(" ", "%20");
         }
+        if (projectList.length != 0) {
         return Arrays.asList(projectList);
+        }throw new Error("Projects not found");
     }
 
     public List<String> getBuildNumberForUsingApi(String project){
@@ -38,7 +40,10 @@ public class SeleniumTest extends BaseTest {
         for (int i = 0; i < builds.length(); i++){
             buildStringList[i] = String.valueOf(builds.getJSONObject(i).getInt("number"));
         }
-        return Arrays.asList(buildStringList);
+        if (buildStringList.length != 0) {
+            return Arrays.asList(buildStringList);
+        }
+        throw new Error("The Project has no builds");
     }
 
     @Test
@@ -50,21 +55,21 @@ public class SeleniumTest extends BaseTest {
     public void loginTest() {
         MainPage page = new LoginPage(driver).get().loginAs(user.getLogin(),
                 user.getPassword());
-        assertTrue(page.isLoggedIn());
+            assertTrue(page.isLoggedIn());
     }
 
     @Test
     public void enterProjectPageTest() {
         String projectName = getRandomItem(getListProjectForUsingApi());
         ProjectPage projectPage = new ProjectPage(driver, projectName).get();
-        assertEquals(projectName, projectPage.getProjectName());
+            assertEquals(projectName, projectPage.getProjectName());
     }
 
     @Test
     public void dateTestForUsingApi(){
         String project = getRandomItem(getListProjectForUsingApi());
         String build = getRandomItem(getBuildNumberForUsingApi(project));
-        Assert.assertNotNull(api.getApiBuildDate(project, build));
+            Assert.assertNotNull(api.getApiBuildDate(project, build));
     }
 
     @Test
@@ -75,14 +80,12 @@ public class SeleniumTest extends BaseTest {
         LocalDateTime buildHistoryDate = projectPage.getBuildHistoryDate(randomBuild);
         BuildPage bp = new BuildPage(driver, randomProjectName, randomBuild).get();
         LocalDateTime buildDate = bp.getBuildPageDate();
-        assertThat(buildHistoryDate, dateEquals(buildDate));
-        assertThat(api.getApiBuildDate(randomProjectName, randomBuild), dateEquals(buildHistoryDate));
+            assertThat(buildHistoryDate, dateEquals(buildDate));
+            assertThat(api.getApiBuildDate(randomProjectName, randomBuild), dateEquals(buildHistoryDate));
     }
 
     private static String getRandomItem(@NotNull List<String> items){
         Random random = new Random();
-        if (items.size() != 0) {
             return items.get(random.nextInt(items.size()));
-        }throw new Error("The Project has no builds");
     }
 }

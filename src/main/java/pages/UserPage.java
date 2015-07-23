@@ -11,7 +11,7 @@ public class UserPage extends AuthenticationBasePage<UserPage> {
 
     private final String userLogin;
 
-    @FindBy(css = "#main-panel-content>h1")
+    @FindBy(css = "#main-panel>h1")
     private WebElement mainPanelContentElement;
 
 
