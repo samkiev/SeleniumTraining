@@ -18,11 +18,12 @@ import static org.junit.Assert.assertTrue;
 
 
 @RunWith(JUnit4.class)
-public class SignUpNegativeTest extends BaseTest {
+public class SignUpNegativeTest extends BaseUITest {
 
     private CreateAccountResultPage resultPage;
 
     private User user = null;
+    
     @Rule
     public TestRule userAvailabilityRule = (base, d) -> new Statement() {
 

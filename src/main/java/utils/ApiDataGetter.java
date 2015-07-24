@@ -26,7 +26,7 @@ public class ApiDataGetter {
     public LocalDateTime getApiBuildDate(@NotNull String projectName, @NotNull String buildVersion) {
         String url = "http://seltr-kbp1-1.synapse.com:8080/job/" + projectName + "/" + buildVersion + "/";
         JSONObject jo = getPageApi(url);
-        long timestamp = (long) (jo.get("timestamp")) / 1000;
+        long timestamp = (jo.getLong("timestamp")) / 1000;
         return LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
     }
 
@@ -51,14 +51,18 @@ public class ApiDataGetter {
             }
         }
         catch (IOException e) {
-            // TODO handle exception
+            e.printStackTrace();
         }
         finally {
             if (conn != null) {
                 conn.disconnect();
             }
         }
-        return new JSONObject(res);
+        return res.isEmpty() ? new JSONObject() : new JSONObject(res);
+    }
+
+    public JSONObject getMainPageInfo() {
+        return getPageApi("http://seltr-kbp1-1.synapse.com:8080/");
     }
 
     @NotNull

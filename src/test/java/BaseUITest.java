@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.nio.file.*;
 
 
-public class BaseTest {
+public class BaseUITest {
 
     protected static WebDriver driver = null;
     @ClassRule

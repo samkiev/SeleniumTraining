@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
-public class SignUpPositiveTest extends BaseTest {
+public class SignUpPositiveTest extends BaseUITest {
 
     private final User user = User.generateMockUser();
 

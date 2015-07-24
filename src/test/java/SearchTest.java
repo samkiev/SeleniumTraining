@@ -11,7 +11,7 @@ import utils.User;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
-public class SearchTest extends BaseTest {
+public class SearchTest extends BaseUITest {
 
     private static User user;
 

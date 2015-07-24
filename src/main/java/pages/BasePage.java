@@ -15,7 +15,7 @@ public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<
 
     protected final Logger log = LogManager.getLogger(this);
     protected WebDriver driver;
-//    WebDriverWait wait = new WebDriverWait(driver, 5);
+    protected WebDriverWait wait;
     @FindBy(css = ".login a[href*='logout']")
     protected WebElement logOutLink;
     @FindBy(css = "a.inverse")
@@ -27,6 +27,7 @@ public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<
 
     protected BasePage(@NotNull WebDriver wd, @NotNull boolean checkIfLoaded) {
         this.driver = wd;
+        wait=  new WebDriverWait(driver, WebDriverWait.DEFAULT_SLEEP_TIMEOUT);
         PageFactory.initElements(driver, this);
         if (checkIfLoaded) {
             isLoaded();

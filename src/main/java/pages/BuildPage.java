@@ -7,19 +7,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.LocaleDateExtractor;
-
 import java.time.LocalDateTime;
 
 public class BuildPage extends AuthenticationBasePage<BuildPage> {
 
     private final String projectName;
     private final String build;
+
     @FindBy(className = "build-caption")
     private WebElement buildDateElement;
 
     @FindBy(xpath = ".//*[@id='breadcrumbs']/li[5]/a")
     private WebElement buildPageUniqueElement;
-
 
     public BuildPage(@NotNull WebDriver driver, String projectName, String build) {
         super(driver);

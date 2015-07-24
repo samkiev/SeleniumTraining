@@ -17,7 +17,7 @@ public class User {
 
     private User() {
         isExisting = false;
-        this.login = nameGenerator();
+        this.login = RandomGenerator.generateName();
         this.password = "password";
         this.name = login;
         this.email = login + "@testuser.com";
@@ -56,18 +56,6 @@ public class User {
         user.login = login;
         user.password = password;
         return user;
-    }
-
-    private String nameGenerator() {
-        char[] abcArray = new char[26];
-        for (int i = 0; i < abcArray.length; i++) {
-            abcArray[i] = (char) ('a' + i);
-        }
-        String name = null;
-        for (int i = 0; i < 15; i++) {
-            name = name + abcArray[(int) (Math.random() * abcArray.length - 1)];
-        }
-        return name;
     }
 
     public String getName() {
