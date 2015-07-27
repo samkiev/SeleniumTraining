@@ -10,13 +10,12 @@ import pages.LoginPage;
 import pages.MainPage;
 import pages.ProjectPage;
 import utils.ApiDataGetter;
-import utils.RandomGenerator;
+import utils.StringGenerator;
 import utils.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.Assert.*;
 import static utils.DateTimeMatcher.dateEquals;
@@ -26,7 +25,7 @@ public class SeleniumTestsWithExistValues extends BaseUITest {
 
     private ApiDataGetter api = ApiDataGetter.getAPUsingDefaultCredentials();
     User user = User.setLoginAndPassword("admin", "admin");
-    private String randomProjectName = RandomGenerator.getRandomItem(getListProjectForUsingApi());
+    private String randomProjectName = StringGenerator.getRandomItem(getListProjectForUsingApi());
 
     public List<String> getListProjectForUsingApi() {
         JSONArray projects = api.getPageApi(MainPage.MAIN_PAGE_URL).getJSONArray("jobs");
@@ -57,22 +56,22 @@ public class SeleniumTestsWithExistValues extends BaseUITest {
 
     @Test
     public void enterExistProjectPageTest() {
-        String projectName = RandomGenerator.getRandomItem(getListProjectForUsingApi());
+        String projectName = StringGenerator.getRandomItem(getListProjectForUsingApi());
         ProjectPage projectPage = new ProjectPage(driver, projectName).get();
         assertEquals(projectName, projectPage.getProjectName());
     }
 
     @Test
     public void dateTestForUsingApi() {
-        String project = RandomGenerator.getRandomItem(getListProjectForUsingApi());
-        String build = RandomGenerator.getRandomItem(getBuilsdNumberForUsingApi(project));
+        String project = StringGenerator.getRandomItem(getListProjectForUsingApi());
+        String build = StringGenerator.getRandomItem(getBuilsdNumberForUsingApi(project));
         Assert.assertNotNull(api.getApiBuildDate(project, build));
     }
 
     @Test
     public void complianceCheckingDate() {
         ProjectPage projectPage = new ProjectPage(driver, randomProjectName).get();
-        String randomBuild = RandomGenerator.getRandomItem(projectPage.getBuildNumbers());
+        String randomBuild = StringGenerator.getRandomItem(projectPage.getBuildNumbers());
         LocalDateTime buildHistoryDate = projectPage.getBuildHistoryDate(randomBuild);
         //projectPage.openBuildPage();
         BuildPage bp = new BuildPage(driver, randomProjectName, randomBuild).get();

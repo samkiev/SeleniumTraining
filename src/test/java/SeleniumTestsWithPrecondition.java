@@ -1,5 +1,6 @@
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Rule;
@@ -10,12 +11,11 @@ import org.openqa.selenium.WebDriver;
 import pages.CreateNewProjectPage;
 import pages.ProjectPage;
 import utils.ApiDataGetter;
-import utils.RandomGenerator;
-import java.time.LocalDateTime;
+import utils.StringGenerator;
+
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
-import static utils.DateTimeMatcher.dateEquals;
 
 /**
  * Created by oleg.semenov on 7/23/2015.
@@ -47,37 +47,35 @@ public class SeleniumTestsWithPrecondition extends BaseUITest {
 
     private ProjectPage getTestProjectPage() {
         String existingProjectName = getExistingProjectName();
-        return existingProjectName != null ? new ProjectPage(driver, existingProjectName).get() : null;
+        return existingProjectName != null ? new ProjectPage(driver, StringGenerator.encode(existingProjectName)).get() : null;
     }
 
     private String getExistingProjectName() {
-        JSONArray info = ApiDataGetter.getAPUsingDefaultCredentials().getMainPageInfo().getJSONArray("jobs");
         List<String> projects = new ArrayList<>();
-        for (int i = 0; i < info.length(); i++) {
-            projects.add(info.getJSONObject(i).getString("name").replaceAll(" ", "%20"));
+        try {
+            JSONArray info = ApiDataGetter.getAPUsingDefaultCredentials().getMainPageInfo().getJSONArray("jobs");
+            for (int i = 0; i < info.length(); i++) {
+                projects.add(info.getJSONObject(i).getString("name"));
+            }
+            if (projects.isEmpty()) {
+                projectName = StringGenerator.generateRandomName();
+                createMockProject(projectName);
+                return projectName;
+            }
         }
-        if (projects.isEmpty()) {
-            isNewProjectCreated = true;
-            projectName = RandomGenerator.generateName();
-            createMockProject(projectName);
-            return projectName;
+        catch (JSONException jsonEx){
+            System.out.println(jsonEx.getMessage());
         }
-        projectName = RandomGenerator.getRandomItem(projects);
+        projectName = StringGenerator.getRandomItem(projects);
         return projectName;
     }
 
-    private void createMockProject(String projectName) {
-        try {
+    private void createMockProject(@NotNull String projectName) {
             mockProject = new CreateNewProjectPage(wd).get()
                 .createNewProject(projectName)
                 .saveConfiguration();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+            isNewProjectCreated = true;
     }
-
-
 
     @Test
     public void enterProjectPageTest() {

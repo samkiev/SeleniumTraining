@@ -17,7 +17,7 @@ public class User {
 
     private User() {
         isExisting = false;
-        this.login = RandomGenerator.generateName();
+        this.login = StringGenerator.generateRandomName();
         this.password = "password";
         this.name = login;
         this.email = login + "@testuser.com";

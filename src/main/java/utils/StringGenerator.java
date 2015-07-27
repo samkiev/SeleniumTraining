@@ -8,9 +8,9 @@ import java.util.Random;
 /**
  * Created by oleg.semenov on 7/23/2015.
  */
-public class RandomGenerator {
+public class StringGenerator {
 
-    public static String generateName() {
+    public static String generateRandomName() {
         char[] abcArray = new char[26];
         for (int i = 0; i < abcArray.length; i++) {
             abcArray[i] = (char) ('a' + i);
@@ -24,6 +24,16 @@ public class RandomGenerator {
 
     public static String getRandomItem(@NotNull List<String> items) {
         Random random = new Random();
-        return items.get(random.nextInt(items.size()));
+        String randomItem = null;
+        try {
+            randomItem = items.get(random.nextInt(items.size()));
+        }catch (IllegalArgumentException e){
+            System.out.println("Did not select items. Reason: " + e.getMessage());
+        }
+        return  randomItem;
+    }
+
+    public static String encode(@NotNull String word) {
+        return word.replaceAll(" ", "%20");
     }
 }

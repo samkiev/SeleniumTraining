@@ -2,9 +2,12 @@ package utils;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
+
+import javax.management.RuntimeErrorException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -31,7 +34,7 @@ public class ApiDataGetter {
     }
 
     @NotNull
-    private JSONObject request(String link) {
+    private JSONObject request(String link) throws RuntimeException {
         HttpURLConnection conn = null;
         String res = "";
         try {
@@ -40,20 +43,19 @@ public class ApiDataGetter {
             conn.setRequestProperty("Authorization", "Basic " + auth);
             conn.connect();
 
-            if(conn.getResponseCode() != HttpURLConnection.HTTP_OK)
-            {
-                throw new Error("Page not Found");
-            }
+            if(conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 try (Scanner in = new Scanner(conn.getInputStream())) {
-                while (in.hasNextLine()) {
-                    res += in.nextLine();
+                    while (in.hasNextLine()) {
+                        res += in.nextLine();
+                    }
                 }
             }
-        }
-        catch (IOException e) {
+            else {
+                throw new RuntimeException(String.format("[%d] - %s", conn.getResponseCode(), conn.getResponseMessage()));
+            }
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             if (conn != null) {
                 conn.disconnect();
             }
