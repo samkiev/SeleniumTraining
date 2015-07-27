@@ -8,14 +8,17 @@ import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runners.model.Statement;
 import org.openqa.selenium.WebDriver;
+import pages.BuildPage;
 import pages.CreateNewProjectPage;
 import pages.ProjectPage;
 import utils.ApiDataGetter;
 import utils.StringGenerator;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
+import static utils.DateTimeMatcher.dateEquals;
 
 /**
  * Created by oleg.semenov on 7/23/2015.
@@ -77,6 +80,29 @@ public class SeleniumTestsWithPrecondition extends BaseUITest {
             isNewProjectCreated = true;
     }
 
+//    private BuildPage getTestBuildPage(String existedProjectName) {
+//        String buildNumber = getExistBuild(existedProjectName);
+//        return new BuildPage(driver, existedProjectName, buildNumber);
+//    }
+
+    private String getExistBuild(String existedProjectName) {
+        List<String> builds = new ArrayList<>();
+        try {
+            JSONArray buildsList = ApiDataGetter.getAPUsingDefaultCredentials().getProjectPageInfo(existedProjectName).getJSONArray("builds");
+            for (int i = 0; i < buildsList.length(); i++) {
+                builds.add(String.valueOf(buildsList.getJSONObject(i).getInt("number")));
+            }
+            if (builds.isEmpty()) {
+                new ProjectPage(driver, existedProjectName).get().addBuild();
+                return getExistBuild(existedProjectName);
+            }
+        }
+        catch (JSONException jsonEx){
+            System.out.println(jsonEx.getMessage());
+        }
+        return StringGenerator.getRandomItem(builds);
+    }
+
     @Test
     public void enterProjectPageTest() {
         ProjectPage testProjectPage = getTestProjectPage();
@@ -84,12 +110,18 @@ public class SeleniumTestsWithPrecondition extends BaseUITest {
         assertEquals(projectName, testProjectPage.getProjectName());
     }
 
-//    @Test
-//    public void complianceCheckingDate(){
-//        LocalDateTime buildPageDate = getBuildPageDate();
-//        LocalDateTime apiBuildDate = getApiBuildDate();
-//        Assert.assertThat(getExistingProjectName(), dateEquals(buildHistoryDate));
-//    }
+    @Test
+    public void complianceCheckingDate(){
+        String existedProjectName = getExistingProjectName();
+        Assume.assumeNotNull(existedProjectName);
+        String buildNumber = getExistBuild(existedProjectName);
+        Assume.assumeNotNull(buildNumber);
+        LocalDateTime buildHistoryDate = new ProjectPage(driver, existedProjectName).get().getBuildHistoryDate(buildNumber);
+        LocalDateTime buildPage = new BuildPage(driver, existedProjectName, buildNumber).get().getBuildPageDate();
+        LocalDateTime apiBuildPageDate = ApiDataGetter.getAPUsingDefaultCredentials().getApiBuildDate(existedProjectName, buildNumber);
+        Assert.assertThat(buildHistoryDate, dateEquals(buildPage));
+        Assert.assertThat(apiBuildPageDate, dateEquals(buildHistoryDate));
+    }
 
     @Test
     public void checkPossibilityToAddNewBuild(){

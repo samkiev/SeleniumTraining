@@ -2,17 +2,13 @@ package pages;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import utils.LocaleDateExtractor;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.openqa.selenium.Alert;
 
 public class ProjectPage extends AuthenticationBasePage<ProjectPage> {
 
@@ -67,10 +63,13 @@ public class ProjectPage extends AuthenticationBasePage<ProjectPage> {
         try{
             buildNowElement.click();
             wait.until(isLastBuildLoaded());
-            System.out.println("Build was Added");
+            log.info("Build was Added");
         }
-        catch (Exception e){
+        catch (NoSuchElementException e){
             e.printStackTrace();
+        }
+        catch (TimeoutException ex){
+            ex.printStackTrace();
         }
         return this;
     }

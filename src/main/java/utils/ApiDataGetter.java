@@ -76,4 +76,8 @@ public class ApiDataGetter {
     public JSONObject getPageApi(String url) {
         return request(url + "api/json?pretty=true");
     }
+
+    public JSONObject getProjectPageInfo(String existedProjectName) {
+        return getPageApi("http://seltr-kbp1-1.synapse.com:8080/job/" + StringGenerator.encode(existedProjectName)+ "/");
+    }
 }

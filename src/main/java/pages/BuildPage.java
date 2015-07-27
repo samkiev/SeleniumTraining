@@ -30,15 +30,28 @@ public class BuildPage extends AuthenticationBasePage<BuildPage> {
         return LocaleDateExtractor.getBuildPageCorrectDate(getBuildPageDateText());
     }
 
-    public String getBuildVersion() {
-        String buildVersinElementText = buildPageUniqueElement.getText();
-        StringBuffer output = new StringBuffer(buildVersinElementText);
+    public String getBuildVersionOnThePage() {
+        StringBuffer output = null;
+        try{
+            String buildVersionElementText = buildPageUniqueElement.getText();
+            output = new StringBuffer(buildVersionElementText);
+        }catch (NoSuchElementException e)
+        {
+            e.printStackTrace();
+        }
         return output.deleteCharAt(0).toString();
     }
 
     private String getBuildPageDateText() {
-        String messageOfBuildPage = buildDateElement.getText();
-        return messageOfBuildPage.substring(messageOfBuildPage.indexOf("(") + 1, messageOfBuildPage.indexOf(")"));
+        try{
+            String messageOfBuildPage = buildDateElement.getText();
+            return messageOfBuildPage.substring(messageOfBuildPage.indexOf("(") + 1, messageOfBuildPage.indexOf(")"));
+        }
+        catch (NoSuchElementException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public boolean isOnBuildPage() {
