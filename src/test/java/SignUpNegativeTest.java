@@ -1,3 +1,4 @@
+import org.junit.Assume;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -21,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 public class SignUpNegativeTest extends BaseUITest {
 
     private CreateAccountResultPage resultPage;
+    private boolean allowedConfiguration= new SignUpPage(driver).get().isSignUpAllowed();
 
     private User user = null;
     
@@ -30,7 +32,7 @@ public class SignUpNegativeTest extends BaseUITest {
         @Override
         public void evaluate() throws Throwable {
             boolean shouldCleanUp = d.getAnnotation(CleanUpRequired.class) != null;
-
+            Assume.assumeTrue(allowedConfiguration);
             if (shouldCleanUp) {
                 user = User.generateMockUser().register();
             }

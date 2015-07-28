@@ -28,6 +28,9 @@ public class SignUpPage extends BasePage<SignUpPage> {
     @FindBy(id = "yui-gen1-button")
     private WebElement signUpButton;
 
+    @FindBy(id = "main-panel")
+    private WebElement mainPanel;
+
     public SignUpPage(@NotNull WebDriver driver) {
         super(driver);
     }
@@ -41,6 +44,10 @@ public class SignUpPage extends BasePage<SignUpPage> {
         sendKeys(emailField, user.getEmail());
         signUpButton.click();
         return new CreateAccountResultPage(driver, true);
+    }
+
+    public boolean isSignUpAllowed(){
+        return !mainPanel.getText().contains("This is not supported in the current configuration.");
     }
 
     @Override
