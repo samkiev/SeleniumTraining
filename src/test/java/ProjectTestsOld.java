@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 import static utils.DateTimeMatcher.dateEquals;
 
 @RunWith(JUnit4.class)
-public class SeleniumTestsWithExistValues extends BaseUITest {
+public class ProjectTestsOld extends BaseUITest {
 
     private ApiDataGetter api = ApiDataGetter.getAPUsingDefaultCredentials();
     User user = User.setLoginAndPassword("admin", "admin");
@@ -73,7 +73,6 @@ public class SeleniumTestsWithExistValues extends BaseUITest {
         ProjectPage projectPage = new ProjectPage(driver, randomProjectName).get();
         String randomBuild = StringGenerator.getRandomItem(projectPage.getBuildNumbers());
         LocalDateTime buildHistoryDate = projectPage.getBuildHistoryDate(randomBuild);
-        //projectPage.openBuildPage();
         BuildPage bp = new BuildPage(driver, randomProjectName, randomBuild).get();
         LocalDateTime buildDate = bp.getBuildPageDate();
         assertThat(buildHistoryDate, dateEquals(buildDate));

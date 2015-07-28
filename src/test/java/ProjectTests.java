@@ -13,7 +13,6 @@ import pages.CreateNewProjectPage;
 import pages.ProjectPage;
 import utils.ApiDataGetter;
 import utils.StringGenerator;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ import static utils.DateTimeMatcher.dateEquals;
 /**
  * Created by oleg.semenov on 7/23/2015.
  */
-public class SeleniumTestsWithPrecondition extends BaseUITest {
+public class ProjectTests extends BaseUITest {
 
     private static String projectName;
     private static WebDriver wd;
@@ -125,21 +124,21 @@ public class SeleniumTestsWithPrecondition extends BaseUITest {
 
     @Test
     public void checkPossibilityToAddNewBuild(){
-        ProjectPage configurePage =  new ProjectPage(driver, projectName).get();
+        ProjectPage configurePage = getTestProjectPage().addBuild();
         String buildNumber = configurePage.getAddedBuildNumber();
-        System.out.println(buildNumber);
+        Assert.assertNotNull(buildNumber);
     }
 
-    @Test
-    public void createNewProjectPossibility(){
-        ProjectPage configurePage =  new CreateNewProjectPage(driver).get()
-                .createNewProject(projectName)
-                .saveConfiguration();
-        Assert.assertEquals(configurePage.getProjectName(), projectName);
-    }
-
-    @Test
-    public void deleteExistProject(){
-        new ProjectPage(driver, projectName).get().deleteProject();
-    }
+//    @Test
+//    public void createNewProjectPossibility(){
+//        ProjectPage configurePage =  new CreateNewProjectPage(driver).get()
+//                .createNewProject(projectName)
+//                .saveConfiguration();
+//        Assert.assertEquals(configurePage.getProjectName(), projectName);
+//    }
+//
+//    @Test
+//    public void deleteExistProject(){
+//        new ProjectPage(driver, projectName).get().deleteProject();
+//    }
 }
