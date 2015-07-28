@@ -1,6 +1,7 @@
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.runners.model.Statement;
@@ -15,6 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class SignUpPositiveTest extends BaseUITest {
 
     private final User user = User.generateMockUser();
+    private static boolean allowedConfiguration= new SignUpPage(driver).get().isSignUpAllowed();
 
     @Rule
     public TestRule userAvailabilityRule = (base, description) -> new Statement() {
@@ -22,6 +24,7 @@ public class SignUpPositiveTest extends BaseUITest {
         @Override
         public void evaluate() throws Throwable {
             try {
+                Assume.assumeTrue(allowedConfiguration);
                 base.evaluate();
             } finally {
                 user.delete(true);
