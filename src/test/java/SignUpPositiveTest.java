@@ -1,10 +1,9 @@
 import org.junit.*;
 import org.junit.rules.TestRule;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.runners.model.Statement;
+import pages.ConfigureGlobalSecurityPage;
 import pages.CreateAccountResultPage;
 import pages.SignUpPage;
 import utils.User;
@@ -17,16 +16,25 @@ public class SignUpPositiveTest extends BaseUITest {
 
     private final User user = User.generateMockUser();
     private static boolean allowedConfiguration= new SignUpPage(driver).get().isSignUpAllowed();
+    private static ConfigureGlobalSecurityPage configPage = new ConfigureGlobalSecurityPage(driver);
 
     @Rule
     public TestRule userAvailabilityRule = (base, description) -> new Statement() {
 
         @Override
         public void evaluate() throws Throwable {
+            boolean isSwitched = false;
+            if (!isPossibleToSignUp()){
+                isSwitched = true;
+                switchAbilityUsersToSignUp();
+            }
             try {
-                Assume.assumeTrue(allowedConfiguration);
                 base.evaluate();
-            } finally {
+            }
+            finally {
+                if (isSwitched){
+                    switchAbilityUsersToSignUp();
+                }
                 user.delete(true);
             }
         }

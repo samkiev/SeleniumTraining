@@ -2,6 +2,7 @@ package pages;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -36,6 +37,7 @@ public class SignUpPage extends BasePage<SignUpPage> {
     }
 
     public CreateAccountResultPage signUpAs(@NotNull User user) {
+        try{
         log.info("Signing up as: {}", user);
         sendKeys(usernameField, user.getLogin());
         sendKeys(passwordField, user.getPassword());
@@ -43,10 +45,14 @@ public class SignUpPage extends BasePage<SignUpPage> {
         sendKeys(fullNameField, user.getName());
         sendKeys(emailField, user.getEmail());
         signUpButton.click();
+        }
+        catch (NoSuchElementException e){
+            e.printStackTrace();
+        }
         return new CreateAccountResultPage(driver, true);
     }
 
-    public boolean isSignUpAllowed(){
+    public boolean isSignUpAllowed() throws NoSuchElementException {
         return !mainPanel.getText().contains("This is not supported in the current configuration.");
     }
 

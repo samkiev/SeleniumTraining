@@ -25,7 +25,7 @@ public class User {
 
     public static String getRandomSubstringOf(String name) {
         int index = (int) (Math.random() * name.length() - 4);
-        name = name.substring(index, index + 2);
+        name = name.substring(index, index + 3);
         return name;
     }
 
@@ -62,40 +62,16 @@ public class User {
         return name;
     }
 
-    public static User setName(String name) {
-        User user = new User();
-        user.name = name;
-        return user;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public static User setEmail(String email) {
-        User user = new User();
-        user.email = email;
-        return user;
     }
 
     public String getLogin() {
         return login;
     }
 
-    public static User setLogin(String login) {
-        User user = new User();
-        user.login = login;
-        return user;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public static User setPassword(String password) {
-        User user = new User();
-        user.password = password;
-        return user;
     }
 
     public boolean isExisting() {

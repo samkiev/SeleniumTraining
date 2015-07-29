@@ -31,6 +31,7 @@ public class CreateAccountResultPage extends BasePage<CreateAccountResultPage> {
         try {
             return error.getText();
         } catch (NoSuchElementException e) {
+            e.printStackTrace();
         }
         return null;
     }

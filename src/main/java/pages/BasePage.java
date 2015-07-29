@@ -27,7 +27,7 @@ public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<
 
     protected BasePage(@NotNull WebDriver wd, @NotNull boolean checkIfLoaded) {
         this.driver = wd;
-        wait=  new WebDriverWait(driver, WebDriverWait.DEFAULT_SLEEP_TIMEOUT);
+        wait = new WebDriverWait(driver, WebDriverWait.DEFAULT_SLEEP_TIMEOUT);
         PageFactory.initElements(driver, this);
         if (checkIfLoaded) {
             isLoaded();
@@ -45,6 +45,15 @@ public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<
         } catch (NoSuchElementException e) {
         }
         return false;
+    }
+
+    public void logOut(){
+        try{
+            logOutLink.click();
+        }
+        catch (NoSuchElementException e){
+            e.printStackTrace();
+        }
     }
 
     @Override

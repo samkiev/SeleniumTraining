@@ -15,7 +15,7 @@ public class StringGenerator {
         for (int i = 0; i < abcArray.length; i++) {
             abcArray[i] = (char) ('a' + i);
         }
-        String name = null;
+        String name = "";
         for (int i = 0; i < 15; i++) {
             name = name + abcArray[(int) (Math.random() * abcArray.length - 1)];
         }

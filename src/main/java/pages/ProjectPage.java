@@ -121,7 +121,9 @@ public class ProjectPage extends AuthenticationBasePage<ProjectPage> {
     public boolean isOnProjectPage() {
         try {
             return disableButton.isDisplayed();
-        } catch (NoSuchElementException e) {
+        }
+        catch (NoSuchElementException e) {
+            e.printStackTrace();
         }
         return false;
     }

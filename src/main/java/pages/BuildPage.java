@@ -31,7 +31,7 @@ public class BuildPage extends AuthenticationBasePage<BuildPage> {
     }
 
     public String getBuildVersionOnThePage() {
-        StringBuffer output = null;
+        StringBuffer output = new StringBuffer();
         try{
             String buildVersionElementText = buildPageUniqueElement.getText();
             output = new StringBuffer(buildVersionElementText);
@@ -58,6 +58,7 @@ public class BuildPage extends AuthenticationBasePage<BuildPage> {
         try {
             return buildPageUniqueElement.isDisplayed();
         } catch (NoSuchElementException e) {
+            e.printStackTrace();
         }
         return false;
     }

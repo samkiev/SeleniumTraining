@@ -1,0 +1,53 @@
+package pages;
+
+import org.jetbrains.annotations.NotNull;
+import org.junit.Assert;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+/**
+ * Created by oleg.semenov on 7/29/2015.
+ */
+public class ConfigureGlobalSecurityPage extends AuthenticationBasePage<ConfigureGlobalSecurityPage>{
+
+    @FindBy(className = "icon-secure")
+    private WebElement uniqueElement;
+
+    @FindBy(name = "_.allowsSignup")
+    private WebElement allowRegistrationCheckBox;
+
+    @FindBy(id = "yui-gen5-button")
+    private WebElement saveButton;
+
+    public ConfigureGlobalSecurityPage(@NotNull WebDriver driver) {
+        super(driver);
+    }
+
+    public ManageJenkinsPage exchangePossibilityUsersToSignIn() {
+        try{
+            allowRegistrationCheckBox.click();
+            saveButton.click();
+        }
+        catch (NoSuchElementException e){
+            e.printStackTrace();
+        }
+        return new ManageJenkinsPage(driver);
+    }
+
+    @Override
+    protected String getPageUrl() {
+        return "http://seltr-kbp1-1.synapse.com:8080/configureSecurity/";
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
+        Assert.assertTrue(isLoggedIn());
+        Assert.assertTrue(isOnThePage());
+    }
+
+    private boolean isOnThePage() {
+        return uniqueElement.isDisplayed();
+    }
+}

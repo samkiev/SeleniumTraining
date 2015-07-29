@@ -24,10 +24,15 @@ public class LoginPage extends BasePage<LoginPage> {
     }
 
     public MainPage loginAs(@NotNull String login, @NotNull String password) {
-        log.info("Logging in using (Login: {}, Password: {})", login, password);
-        loginField.sendKeys(login);
-        passwordField.sendKeys(password);
-        submitButton.click();
+        try{
+            log.info("Logging in using (Login: {}, Password: {})", login, password);
+            loginField.sendKeys(login);
+            passwordField.sendKeys(password);
+            submitButton.click();
+        }
+        catch (NoSuchElementException e){
+            e.printStackTrace();
+        }
         return new MainPage(driver);
     }
 

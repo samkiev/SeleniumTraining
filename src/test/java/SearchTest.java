@@ -20,11 +20,20 @@ public class SearchTest extends BaseUITest {
 
         @Override
         public void evaluate() throws Throwable {
+            boolean isSwitched = false;
+            if (!isPossibleToSignUp()){
+                isSwitched = true;
+                switchAbilityUsersToSignUp();
+            }
             user = User.generateMockUser().register();
             try {
                 base.evaluate();
-            } finally {
+            }
+            finally {
                 user.delete();
+                if (isSwitched){
+                    switchAbilityUsersToSignUp();
+            }
             }
         }
     };

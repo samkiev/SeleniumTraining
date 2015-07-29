@@ -1,10 +1,12 @@
-import org.junit.Assume;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.runners.model.Statement;
+import pages.ConfigureGlobalSecurityPage;
 import pages.CreateAccountResultPage;
 import pages.SignUpPage;
 import utils.User;
@@ -22,17 +24,36 @@ import static org.junit.Assert.assertTrue;
 public class SignUpNegativeTest extends BaseUITest {
 
     private CreateAccountResultPage resultPage;
-    private boolean allowedConfiguration= new SignUpPage(driver).get().isSignUpAllowed();
-
     private User user = null;
     
+   @ClassRule
+   public static TestRule abilityToSignIn = (base, d) -> new Statement() {
+
+       @Override
+       public void evaluate() throws Throwable {
+           boolean isSwitched = false;
+           if (!isPossibleToSignUp()){
+               isSwitched = true;
+               switchAbilityUsersToSignUp();
+           }
+           try {
+               base.evaluate();
+           }
+           finally {
+               if (isSwitched){
+                   switchAbilityUsersToSignUp();
+               }
+           }
+       }
+   };
+
+
     @Rule
     public TestRule userAvailabilityRule = (base, d) -> new Statement() {
 
         @Override
         public void evaluate() throws Throwable {
             boolean shouldCleanUp = d.getAnnotation(CleanUpRequired.class) != null;
-            Assume.assumeTrue(allowedConfiguration);
             if (shouldCleanUp) {
                 user = User.generateMockUser().register();
             }

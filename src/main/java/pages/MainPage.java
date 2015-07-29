@@ -65,11 +65,17 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
     private void selectExpectedUser(String userName) {
         waitForDropDownElement();
         WebElement expectedUserName = null;
-        System.out.println(listOfDropDownNames.size());
-        for (WebElement liName : listOfDropDownNames) {
-            if (liName.getText().equals(userName)) {
-                expectedUserName = liName;
-            }
+        try{
+           for (WebElement liName : listOfDropDownNames) {
+               if (liName.getText().equals(userName)) {
+                   expectedUserName = liName;
+               }
+               if (expectedUserName == null){
+                   throw new RuntimeException(userName + " is absent in the list");
+               }
+           }
+       }catch (NoSuchElementException e){
+            e.printStackTrace();
         }
         selectDesiredItem(expectedUserName);
     }
@@ -79,8 +85,8 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
             WebDriverWait wait = new WebDriverWait(driver, 5);
             wait.until(ExpectedConditions.visibilityOf(listOfDropDownNames.get(0)));
         }
-        catch (TimeoutException e){
-            throw new Error("There is not search item in the Search box");
+        catch (TimeoutException | NoSuchElementException e){
+            throw new RuntimeException("There is not search item in the Search box");
         }
 
     }
@@ -91,7 +97,8 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
                 .sendKeys(Keys.ENTER)
                 .build()
                 .perform();
-    }catch (NoSuchElementException e){
+    }
+        catch (NoSuchElementException e){
             e.printStackTrace();
         }
 

@@ -16,7 +16,7 @@ import utils.StringGenerator;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static utils.DateTimeMatcher.dateEquals;
 
 /**
@@ -106,7 +106,7 @@ public class ProjectTests extends BaseUITest {
     public void enterProjectPageTest() {
         ProjectPage testProjectPage = getTestProjectPage();
         Assume.assumeNotNull(testProjectPage);
-        assertEquals(projectName, testProjectPage.getProjectName());
+        assertTrue(testProjectPage.isOnProjectPage());
     }
 
     @Test

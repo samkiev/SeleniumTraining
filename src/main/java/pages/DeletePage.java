@@ -21,8 +21,12 @@ public class DeletePage extends AuthenticationBasePage<DeletePage> {
     }
 
     public MainPage deleteUser() {
+        try{
         log.info("Goind to delete user: {}", userName);
         confirmDeleteButton.click();
+        }catch (NoSuchElementException e){
+            e.printStackTrace();
+        }
         return new MainPage(driver, true);
     }
 

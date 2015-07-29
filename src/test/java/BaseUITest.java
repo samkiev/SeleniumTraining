@@ -10,8 +10,9 @@ import org.junit.runners.model.Statement;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import pages.ConfigureGlobalSecurityPage;
+import pages.SignUpPage;
 import utils.WebDriverController;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -20,6 +21,17 @@ import java.nio.file.*;
 public class BaseUITest {
 
     protected static WebDriver driver = null;
+
+    public static void switchAbilityUsersToSignUp(){
+        ConfigureGlobalSecurityPage configPage = new ConfigureGlobalSecurityPage(driver);
+            configPage.get().exchangePossibilityUsersToSignIn();
+            configPage.logOut();
+    }
+
+    public static boolean isPossibleToSignUp(){
+        return  new SignUpPage(driver).get().isSignUpAllowed();
+    }
+
     @ClassRule
     public static TestRule rule = (base, description) -> new Statement() {
         @Override
@@ -32,6 +44,7 @@ public class BaseUITest {
             }
         }
     };
+
     protected final Logger log = LogManager.getLogger(this);
     @Rule
     public TestWatcher watcher = new TestWatcher() {
