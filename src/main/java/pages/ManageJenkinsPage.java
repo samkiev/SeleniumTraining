@@ -2,6 +2,7 @@ package pages;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -30,6 +31,10 @@ public class ManageJenkinsPage extends AuthenticationBasePage<ManageJenkinsPage>
     }
 
     private boolean isOnThePage() {
-        return managePageuniqeElement.isDisplayed();
+        try {
+            return managePageuniqeElement.isDisplayed();
+        }catch (NoSuchElementException e){
+            return false;
+        }
     }
 }

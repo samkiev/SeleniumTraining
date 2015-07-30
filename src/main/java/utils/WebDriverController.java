@@ -22,7 +22,6 @@ public class WebDriverController {
             driver.getCurrentUrl();
             return false;
         } catch (SessionNotFoundException e) {
-            e.printStackTrace();
         }
         return true;
     }

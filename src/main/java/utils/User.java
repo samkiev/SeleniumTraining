@@ -24,7 +24,7 @@ public class User {
     }
 
     public static String getRandomSubstringOf(String name) {
-        int index = (int) (Math.random() * name.length() - 4);
+        int index = (int) (Math.random() * (name.length() - 4));
         name = name.substring(index, index + 3);
         return name;
     }

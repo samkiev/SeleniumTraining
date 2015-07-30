@@ -43,11 +43,11 @@ public class ProjectConfigurePage extends AuthenticationBasePage<ProjectConfigur
     @Override
     protected void isLoaded() throws Error {
         Assert.assertTrue(isLoggedIn());
-        Assert.assertTrue(isOnTheConfigureProjectPage());
+        Assert.assertTrue(isOnThePage());
         Assert.assertTrue(driver.getCurrentUrl().contains(projectName));
     }
 
-    private boolean isOnTheConfigureProjectPage() {
+    private boolean isOnThePage() {
         return configureItemElement.isDisplayed();
     }
 }

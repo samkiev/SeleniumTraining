@@ -13,7 +13,7 @@ public class CreateAccountResultPage extends BasePage<CreateAccountResultPage> {
     @FindBy(className = "error")
     private WebElement error;
 
-    protected CreateAccountResultPage(@NotNull WebDriver wd, @NotNull boolean checkIfLoaded) {
+    protected CreateAccountResultPage(@NotNull WebDriver wd, boolean checkIfLoaded) {
         super(wd, checkIfLoaded);
     }
 
@@ -30,9 +30,7 @@ public class CreateAccountResultPage extends BasePage<CreateAccountResultPage> {
     public String getError() {
         try {
             return error.getText();
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-        }
+        } catch (NoSuchElementException e) {}
         return null;
     }
 }

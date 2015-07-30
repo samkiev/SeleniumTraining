@@ -65,11 +65,7 @@ public class ProjectPage extends AuthenticationBasePage<ProjectPage> {
             wait.until(isLastBuildLoaded());
             log.info("Build was Added");
         }
-        catch (NoSuchElementException e){
-            e.printStackTrace();
-        }
-        catch (TimeoutException ex){
-            ex.printStackTrace();
+        catch (NoSuchElementException |TimeoutException e){
         }
         return this;
     }
@@ -122,9 +118,7 @@ public class ProjectPage extends AuthenticationBasePage<ProjectPage> {
         try {
             return disableButton.isDisplayed();
         }
-        catch (NoSuchElementException e) {
-            e.printStackTrace();
-        }
+        catch (NoSuchElementException e) {}
         return false;
     }
 

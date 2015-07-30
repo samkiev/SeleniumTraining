@@ -55,10 +55,10 @@ public class BuildPage extends AuthenticationBasePage<BuildPage> {
     }
 
     public boolean isOnBuildPage() {
-        try {
-            return buildPageUniqueElement.isDisplayed();
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
+        try{
+            return buildDateElement.isDisplayed();
+        }catch (NoSuchElementException e){
+
         }
         return false;
     }

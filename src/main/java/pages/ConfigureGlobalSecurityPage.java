@@ -48,6 +48,10 @@ public class ConfigureGlobalSecurityPage extends AuthenticationBasePage<Configur
     }
 
     private boolean isOnThePage() {
-        return uniqueElement.isDisplayed();
+        try {
+            return uniqueElement.isDisplayed();
+        }catch (NoSuchElementException e){
+            return false;
+        }
     }
 }

@@ -41,7 +41,6 @@ public class ProjectTests extends BaseUITest {
                 if (isNewProjectCreated) {
                     mockProject.deleteProject();
                     projectName = null;
-                    wd.quit();
                 }
             }
         }

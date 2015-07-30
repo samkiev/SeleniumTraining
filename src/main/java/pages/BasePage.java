@@ -42,8 +42,7 @@ public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<
     public boolean isLoggedIn() {
         try {
             return logOutLink.isDisplayed();
-        } catch (NoSuchElementException e) {
-        }
+        } catch (NoSuchElementException e) {}
         return false;
     }
 
