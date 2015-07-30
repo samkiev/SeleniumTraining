@@ -39,7 +39,7 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
         super(driver, checkIfLoaded);
     }
 
-    public static List<String> getListOfProject() {
+    public static List<String> getListOfProjectFromUi() {
         try{
             return (listOfProjectLink.stream()
                     .map(names -> (names.getText()))
@@ -53,8 +53,10 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
 
     public UserPage searchUser(String token, String expectedUser) {
         try {
+            log.info("Search user: {}", expectedUser);
             searchBoxField.sendKeys(token);
             selectExpectedUser(expectedUser);
+            wait.until(ExpectedConditions.urlContains(expectedUser));
         }
         catch (org.openqa.selenium.TimeoutException e) {
             e.printStackTrace();
@@ -82,7 +84,6 @@ public class MainPage extends AuthenticationBasePage<MainPage> {
 
     private void waitForDropDownElement() {
         try{
-            WebDriverWait wait = new WebDriverWait(driver, 5);
             wait.until(ExpectedConditions.visibilityOf(listOfDropDownNames.get(0)));
         }
         catch (TimeoutException | NoSuchElementException e){

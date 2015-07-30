@@ -7,10 +7,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runners.model.Statement;
-import org.openqa.selenium.WebDriver;
-import pages.BuildPage;
-import pages.CreateNewProjectPage;
-import pages.ProjectPage;
+import pages.*;
 import utils.ApiDataGetter;
 import utils.StringGenerator;
 import java.time.LocalDateTime;
@@ -25,7 +22,6 @@ import static utils.DateTimeMatcher.dateEquals;
 public class ProjectTests extends BaseUITest {
 
     private static String projectName;
-    private static WebDriver wd;
     private static ProjectPage mockProject;
     private boolean isNewProjectCreated = false;
 
@@ -42,6 +38,7 @@ public class ProjectTests extends BaseUITest {
                     mockProject.deleteProject();
                     projectName = null;
                 }
+                logOut();
             }
         }
     };
@@ -71,11 +68,12 @@ public class ProjectTests extends BaseUITest {
         return projectName;
     }
 
-    private void createMockProject(@NotNull String projectName) {
-            mockProject = new CreateNewProjectPage(wd).get()
+    private ProjectPage createMockProject(@NotNull String projectName) {
+            mockProject = new CreateNewProjectPage(driver).get()
                 .createNewProject(projectName)
                 .saveConfiguration();
             isNewProjectCreated = true;
+        return mockProject;
     }
 
 //    private BuildPage getTestBuildPage(String existedProjectName) {
@@ -128,16 +126,12 @@ public class ProjectTests extends BaseUITest {
         Assert.assertNotNull(buildNumber);
     }
 
-//    @Test
-//    public void createNewProjectPossibility(){
-//        ProjectPage configurePage =  new CreateNewProjectPage(driver).get()
-//                .createNewProject(projectName)
-//                .saveConfiguration();
-//        Assert.assertEquals(configurePage.getProjectName(), projectName);
-//    }
-//
-//    @Test
-//    public void deleteExistProject(){
-//        new ProjectPage(driver, projectName).get().deleteProject();
-//    }
+    @Test
+    public void createNewProjectPossibility(){
+        projectName = StringGenerator.generateRandomName();
+        ProjectPage configurePage = createMockProject(projectName);
+        Assert.assertEquals(configurePage.getProjectName(), projectName);
+    }
+
+
 }

@@ -1,7 +1,10 @@
 package pages;
 
 import org.jetbrains.annotations.NotNull;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.User;
 
 
@@ -13,6 +16,17 @@ public abstract class AuthenticationBasePage<T extends AuthenticationBasePage<T>
 
     protected AuthenticationBasePage(@NotNull WebDriver wd, @NotNull boolean checkIfLoaded) {
         super(wd, checkIfLoaded);
+    }
+
+    public void logOut(){
+        try{
+            if (isLoggedIn())
+            wait.until(ExpectedConditions.visibilityOf(logOutLink));
+            log.info("Log out");
+            logOutLink.click();
+        }
+        catch (NoSuchElementException | TimeoutException e){
+        }
     }
 
     @Override

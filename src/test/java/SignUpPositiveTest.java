@@ -15,8 +15,6 @@ import static org.junit.Assert.assertTrue;
 public class SignUpPositiveTest extends BaseUITest {
 
     private final User user = User.generateMockUser();
-    private static boolean allowedConfiguration= new SignUpPage(driver).get().isSignUpAllowed();
-    private static ConfigureGlobalSecurityPage configPage = new ConfigureGlobalSecurityPage(driver);
 
     @Rule
     public TestRule userAvailabilityRule = (base, description) -> new Statement() {

@@ -11,6 +11,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import pages.ConfigureGlobalSecurityPage;
+import pages.MainPage;
 import pages.SignUpPage;
 import utils.WebDriverController;
 import java.io.File;
@@ -83,4 +84,8 @@ public class BaseUITest {
             log.info("Starting test: {}", d.getMethodName());
         }
     };
+
+    public void logOut(){
+        new MainPage(driver).get().logOut();
+    }
 }

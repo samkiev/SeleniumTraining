@@ -13,15 +13,16 @@ import org.openqa.selenium.support.FindBy;
 public class ManageJenkinsPage extends AuthenticationBasePage<ManageJenkinsPage> {
 
     @FindBy(id = "management-links")
-    WebElement managePageuniqeElement;
+    WebElement managePageUniqueElement;
 
+    public final static String MANAGE_JENKINS_PAGE_URL = "http://seltr-kbp1-1.synapse.com:8080/manage";
     public ManageJenkinsPage(@NotNull WebDriver driver) {
         super(driver);
     }
 
     @Override
     protected String getPageUrl() {
-        return "http://seltr-kbp1-1.synapse.com:8080/manage";
+        return MANAGE_JENKINS_PAGE_URL;
     }
 
     @Override
@@ -32,7 +33,7 @@ public class ManageJenkinsPage extends AuthenticationBasePage<ManageJenkinsPage>
 
     private boolean isOnThePage() {
         try {
-            return managePageuniqeElement.isDisplayed();
+            return managePageUniqueElement.isDisplayed();
         }catch (NoSuchElementException e){
             return false;
         }

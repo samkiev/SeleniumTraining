@@ -6,6 +6,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * Created by oleg.semenov on 7/23/2015.
@@ -28,6 +29,7 @@ public class ProjectConfigurePage extends AuthenticationBasePage<ProjectConfigur
     public ProjectPage saveConfiguration(){
         try{
             saveButtom.click();
+            wait.until(ExpectedConditions.titleContains(projectName));
         }
         catch (NoSuchElementException e){
             e.printStackTrace();

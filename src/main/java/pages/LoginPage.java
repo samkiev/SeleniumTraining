@@ -7,6 +7,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LoginPage extends BasePage<LoginPage> {
 
@@ -25,10 +26,12 @@ public class LoginPage extends BasePage<LoginPage> {
 
     public MainPage loginAs(@NotNull String login, @NotNull String password) {
         try{
+            wait.until(ExpectedConditions.visibilityOf(loginField));
             log.info("Logging in using (Login: {}, Password: {})", login, password);
             loginField.sendKeys(login);
             passwordField.sendKeys(password);
             submitButton.click();
+            wait.until(ExpectedConditions.titleContains("Jenkins"));
         }
         catch (NoSuchElementException e){
             e.printStackTrace();

@@ -51,10 +51,10 @@ public class ProjectPage extends AuthenticationBasePage<ProjectPage> {
 
     private ExpectedCondition<Boolean> isLastBuildLoaded(){
         return new ExpectedCondition<Boolean>(){
-            int previusLastBuild = getLastBuild(getBuildNumbers());
+            int previousLastBuild = getLastBuild(getBuildNumbers());
             @Override
             public Boolean apply(WebDriver driver){
-                return (previusLastBuild < getLastBuild(getBuildNumbers()));
+                return (previousLastBuild < getLastBuild(getBuildNumbers()));
             }
         };
     }
@@ -63,7 +63,7 @@ public class ProjectPage extends AuthenticationBasePage<ProjectPage> {
         try{
             buildNowElement.click();
             wait.until(isLastBuildLoaded());
-            log.info("Build was Added");
+            log.info("Build was Added: {}", getAddedBuildNumber());
         }
         catch (NoSuchElementException |TimeoutException e){
         }
@@ -76,6 +76,7 @@ public class ProjectPage extends AuthenticationBasePage<ProjectPage> {
 
     public MainPage deleteProject(){
         try{
+            log.info("Going to delete project: {}", getProjectName());
             deleateProjectIcon.click();
             Alert alert = driver.switchTo().alert();
             alert.accept();

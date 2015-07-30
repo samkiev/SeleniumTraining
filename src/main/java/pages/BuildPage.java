@@ -6,6 +6,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.LocaleDateExtractor;
 import java.time.LocalDateTime;
 
@@ -44,6 +45,7 @@ public class BuildPage extends AuthenticationBasePage<BuildPage> {
 
     private String getBuildPageDateText() {
         try{
+            wait.until(ExpectedConditions.visibilityOf(buildDateElement));
             String messageOfBuildPage = buildDateElement.getText();
             return messageOfBuildPage.substring(messageOfBuildPage.indexOf("(") + 1, messageOfBuildPage.indexOf(")"));
         }

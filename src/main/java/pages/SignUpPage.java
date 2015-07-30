@@ -6,6 +6,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.User;
 
 
@@ -45,6 +46,7 @@ public class SignUpPage extends BasePage<SignUpPage> {
         sendKeys(fullNameField, user.getName());
         sendKeys(emailField, user.getEmail());
         signUpButton.click();
+            wait.until(ExpectedConditions.urlContains("http://seltr-kbp1-1.synapse.com:8080/securityRealm/createAccount"));
         }
         catch (NoSuchElementException e){
             e.printStackTrace();

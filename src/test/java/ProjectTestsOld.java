@@ -1,8 +1,6 @@
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
-import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import pages.BuildPage;
@@ -45,6 +43,11 @@ public class ProjectTestsOld extends BaseUITest {
         }
         Assume.assumeTrue(list.size() != 0);
         return list;
+    }
+
+    @After
+    public void loggedOut(){
+        logOut();
     }
 
     @Test

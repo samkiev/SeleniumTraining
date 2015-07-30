@@ -7,6 +7,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class DeletePage extends AuthenticationBasePage<DeletePage> {
 
@@ -22,8 +23,9 @@ public class DeletePage extends AuthenticationBasePage<DeletePage> {
 
     public MainPage deleteUser() {
         try{
-        log.info("Goind to delete user: {}", userName);
+        log.info("Going to delete user: {}", userName);
         confirmDeleteButton.click();
+            wait.until(ExpectedConditions.urlContains(MainPage.MAIN_PAGE_URL));
         }catch (NoSuchElementException e){
             e.printStackTrace();
         }

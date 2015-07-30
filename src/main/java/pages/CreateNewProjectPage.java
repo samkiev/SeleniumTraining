@@ -3,10 +3,12 @@ package pages;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Assume;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * Created by oleg.semenov on 7/23/2015.
@@ -31,9 +33,11 @@ public class CreateNewProjectPage extends AuthenticationBasePage<CreateNewProjec
 
     public ProjectConfigurePage createNewProject(@NotNull String projectName){
            try{
+               log.info("Creating project:  {}", projectName);
                projectNameField.sendKeys(projectName);
                freestyleRabioButton.click();
                summitButton.click();
+               wait.until(ExpectedConditions.urlContains(projectName));
            }catch (NoSuchElementException e){
                e.printStackTrace();
            }

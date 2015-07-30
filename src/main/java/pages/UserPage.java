@@ -15,7 +15,7 @@ public class UserPage extends AuthenticationBasePage<UserPage> {
     private WebElement mainPanelContentElement;
 
 
-    protected UserPage(@NotNull WebDriver driver, @NotNull boolean checkIfLoaded, @NotNull String userLogin) {
+    protected UserPage(@NotNull WebDriver driver, boolean checkIfLoaded, @NotNull String userLogin) {
         super(driver, checkIfLoaded);
         this.userLogin = userLogin.replace(" ", "%20");
     }
